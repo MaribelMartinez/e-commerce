@@ -4,7 +4,7 @@ public class Category {
 
 	String description;
 	String name;
-	long id;
+	Long id;
 	
 	public String getDescription() {
 		return description;
@@ -21,7 +21,7 @@ public class Category {
 	public long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 }
