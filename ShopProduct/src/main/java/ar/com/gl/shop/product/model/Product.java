@@ -2,14 +2,38 @@ package ar.com.gl.shop.product.model;
 
 public class Product {
 
-	long id;
+	Long id;
 	String name;
 	String description;
-	double price;
+	Double price;
 	Stock stock;
 	Category category;
+	Boolean isActive;
 	
+	public Product(Long id, String name, String description, Double price, Stock stock, Category category) 
+	{
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.stock = stock;
+		this.category = category;
+		this.isActive = true;
+	}
 	
+	public Product() 
+	{
+		this.isActive = true;
+	}
+	
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	public long getId() {
 		return id;
 	}

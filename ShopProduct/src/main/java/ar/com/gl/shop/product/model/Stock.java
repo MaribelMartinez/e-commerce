@@ -2,11 +2,32 @@ package ar.com.gl.shop.product.model;
 
 public class Stock {
 
-	long id;
-	int quantity;
+	Long id;
+	Integer quantity;
 	String locationCode;
+	Boolean isActive;
 	
+	public Stock(Long id, Integer quantity, String locationCode)
+	{
+		this.id = id;
+		this.quantity = quantity;
+		this.locationCode = locationCode;
+		this.isActive = true;
+	}
 	
+	public Stock() 
+	{
+		this.isActive = true;
+	}
+	
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	public long getId() {
 		return id;
 	}
