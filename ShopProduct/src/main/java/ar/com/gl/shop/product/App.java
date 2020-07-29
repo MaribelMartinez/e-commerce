@@ -21,6 +21,9 @@ public class App
     	
     	while(true)
     	{
+    		try {
+    			
+    		
     		switch(menu()) 
     		{
     		case 1: { 
@@ -113,6 +116,10 @@ public class App
     			else
     				System.out.println("No se pudo restaurar");
     			break;}
+    		}
+    		}catch(Exception e)
+    		{
+    			System.out.println(e.getMessage());
     		}
     	}
     	
