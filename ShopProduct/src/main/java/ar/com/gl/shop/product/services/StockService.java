@@ -2,7 +2,7 @@ package ar.com.gl.shop.product.services;
 
 import ar.com.gl.shop.product.model.Stock;
 
-interface StockService {
+public interface StockService {
 
 	public boolean createStock(Long id, Integer quantity, String locationCode);
 	public Stock readStock(Long id);

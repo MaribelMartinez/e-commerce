@@ -1,7 +1,10 @@
-package ar.com.gl.shop.product.services;
+package ar.com.gl.shop.product.services.impl;
 
+import ar.com.gl.shop.product.exceptions.IdAlreadyExistException;
 import ar.com.gl.shop.product.model.Stock;
 import ar.com.gl.shop.product.repository.RepositoryImpl;
+import ar.com.gl.shop.product.services.StockService;
+
 import java.util.ArrayList;
 
 public class StockServiceImpl implements StockService{
@@ -10,7 +13,19 @@ public class StockServiceImpl implements StockService{
 
 	public boolean createStock(Long id, Integer quantity, String locationCode) 
 	{
+		
+		try {
+			for(Stock stock : stocks)
+			{
+				if(stock.getId() == id)
+					throw new IdAlreadyExistException();
+			}
 		return stocks.add(new Stock(id,quantity,locationCode));
+		}catch(IdAlreadyExistException exception)
+		{
+			System.err.println(exception.getMessage());
+			return false;
+		}
 	}
 	
 	public Stock readStock(Long id) 

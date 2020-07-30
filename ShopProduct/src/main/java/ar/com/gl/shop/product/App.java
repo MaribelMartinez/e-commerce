@@ -2,8 +2,9 @@ package ar.com.gl.shop.product;
 
 import java.util.Scanner;
 import ar.com.gl.shop.product.model.*;
-import ar.com.gl.shop.product.services.*;
-
+import ar.com.gl.shop.product.services.impl.CategoryServiceImpl;
+import ar.com.gl.shop.product.services.impl.ProductServiceImpl;
+import ar.com.gl.shop.product.services.impl.StockServiceImpl;
 
 public class App 
 {
@@ -18,152 +19,208 @@ public class App
     	 productService = new ProductServiceImpl();
     	 stockService = new StockServiceImpl();
     	 keyboard = new Scanner(System.in);
-    	
-    	while(true)
+    	 Boolean flag = true; 
+    	while(flag)
     	{
     		try {
-    			
-    		
-    		switch(menu()) 
-    		{
-    		case 1: { 
-    			inputCategoryData(false);
-    			break;}
-    		case 2: { 
-    			inputProductData(false);
-    			break;}
-    		case 3: { 
-    			inputStockData(false);
-    			break;}
-    		case 4: { 
-    			outputCategoryData();
-    			break;}
-    		case 5: { 
-    			outputProductData();
-    			break;}
-    		case 6: { 
-    			outputStockData();
-    			break;}
-    		case 7: { 
-    			inputCategoryData(true);
-    			break;}
-    		case 8: { 
-    			inputProductData(true);
-    			break;}
-    		case 9: { 
-    			inputStockData(true);
-    			break;}
-    		case 10: { 
-    			System.out.println("Ingrese el id de la categoria que desea borrar");
-    			if(categoryService.deleteCategory(Long.parseLong(keyboard.nextLine())))
-    				System.out.println("Borrado con exito");
-    			else
-    				System.out.println("No se pudo borrar");
-    			break;}
-    		case 11: { 
-    			System.out.println("Ingrese el id del producto que desea borrar");
-    			if(productService.deleteProduct(Long.parseLong(keyboard.nextLine())))
-    				System.out.println("Borrado con exito");
-    			else
-    				System.out.println("No se pudo borrar");
-    			break;}
-    		case 12: { 
-    			System.out.println("Ingrese el id del stock que desea borrar");
-    			if(stockService.deleteStock(Long.parseLong(keyboard.nextLine())))
-    				System.out.println("Borrado con exito");
-    			else
-    				System.out.println("No se pudo borrar");
-    			break;}
-    		case 13: { 
-    			System.out.println("Ingrese el id de la categoria que desea borrar");
-    			if(categoryService.deleteCategoryLogically(Long.parseLong(keyboard.nextLine())))
-    				System.out.println("Borrado con exito");
-    			else
-    				System.out.println("No se pudo borrar");
-    			break;}
-    		case 14: { 
-    			System.out.println("Ingrese el id  del producto que desea borrar");
-    			if(productService.deleteProductLogically(Long.parseLong(keyboard.nextLine())))
-    				System.out.println("Borrado con exito");
-    			else
-    				System.out.println("No se pudo borrar");
-    			break;}
-    		case 15: { 
-    			System.out.println("Ingrese el id del stock que desea borrar");
-    			if(stockService.deleteStockLogically(Long.parseLong(keyboard.nextLine())))
-    				System.out.println("Borrado con exito");
-    			else
-    				System.out.println("No se pudo borrar");
-    			break;}
-    		case 16: {
-    			System.out.println("Ingrese el id dela categoria que desea restaurar");
-    			if(categoryService.restore(Long.parseLong(keyboard.nextLine())))
-    				System.out.println("Restaurado con exito");
-    			else
-    				System.out.println("No se pudo restaurar");
-    			break;}
-    		case 17: { 
-    			System.out.println("Ingrese el id del producto que desea restaurar");
-    			if(productService.restore(Long.parseLong(keyboard.nextLine())))
-    				System.out.println("Restaurado con exito");
-    			else
-    				System.out.println("No se pudo restaurar");
-    			break;}
-    		case 18: { 
-    			System.out.println("Ingrese el id del stock que desea restaurar");
-    			if(stockService.restore(Long.parseLong(keyboard.nextLine())))
-    				System.out.println("Restaurado con exito");
-    			else
-    				System.out.println("No se pudo restaurar");
-    			break;}
-    		}
+	    			
+	    		switch(menu()) 
+	    		{
+	    		case 0: {
+	    			flag = false; break;
+	    		}
+	    		case 1: { 
+	    			switch(categoryMenu())
+	    			{
+		    			case 1: { 
+			    			inputCategoryData(false);
+			    			break;}
+		    			case 2: { 
+			    			outputCategoryData();
+			    			break;}
+		    			case 3: { 
+			    			inputCategoryData(true);
+			    			break;}
+		    			case 4: { 
+			    			System.out.println("Ingrese el id de la categoria que desea borrar");
+			    			if(categoryService.deleteCategory(Long.parseLong(keyboard.nextLine())))
+			    				System.out.println("Borrado con exito");
+			    			else
+			    				System.out.println("No se pudo borrar");
+			    			break;}
+		    			case 5: { 
+			    			System.out.println("Ingrese el id de la categoria que desea borrar");
+			    			if(categoryService.deleteCategoryLogically(Long.parseLong(keyboard.nextLine())))
+			    				System.out.println("Borrado con exito");
+			    			else
+			    				System.out.println("No se pudo borrar");
+			    			break;}
+		    			case 6: {
+			    			System.out.println("Ingrese el id dela categoria que desea restaurar");
+			    			if(categoryService.restore(Long.parseLong(keyboard.nextLine())))
+			    				System.out.println("Restaurado con exito");
+			    			else
+			    				System.out.println("No se pudo restaurar");
+			    			break;}
+	    			}
+	    			break;}
+	    		case 2: { 
+	    			switch(productMenu())
+	    			{
+		    			case 1: { 
+			    			inputProductData(false);
+			    			break;}
+		    			case 2: { 
+			    			outputProductData();
+			    			break;}
+		    			case 3: { 
+			    			inputProductData(true);
+			    			break;}
+		    			case 4: { 
+			    			System.out.println("Ingrese el id del producto que desea borrar");
+			    			if(productService.deleteProduct(Long.parseLong(keyboard.nextLine())))
+			    				System.out.println("Borrado con exito");
+			    			else
+			    				System.out.println("No se pudo borrar");
+			    			break;}
+		    			case 5: { 
+			    			System.out.println("Ingrese el id  del producto que desea borrar");
+			    			if(productService.deleteProductLogically(Long.parseLong(keyboard.nextLine())))
+			    				System.out.println("Borrado con exito");
+			    			else
+			    				System.out.println("No se pudo borrar");
+			    			break;}
+		    			case 6: { 
+			    			System.out.println("Ingrese el id del producto que desea restaurar");
+			    			if(productService.restore(Long.parseLong(keyboard.nextLine())))
+			    				System.out.println("Restaurado con exito");
+			    			else
+			    				System.out.println("No se pudo restaurar");
+			    			break;}
+		    			
+	    			}
+	    			break;}
+	    		case 3: { 
+	    			switch(stockMenu())
+	    			{
+			    			case 1: { 
+				    			inputStockData(false);
+				    			break;}
+			    			case 2: { 
+				    			outputStockData();
+				    			break;}
+			    			case 3: { 
+				    			inputStockData(true);
+				    			break;}
+			    			case 4: { 
+				    			System.out.println("Ingrese el id del stock que desea borrar");
+				    			if(stockService.deleteStock(Long.parseLong(keyboard.nextLine())))
+				    				System.out.println("Borrado con exito");
+				    			else
+				    				System.out.println("No se pudo borrar");
+				    			break;}
+			    			case 5: { 
+				    			System.out.println("Ingrese el id del stock que desea borrar");
+				    			if(stockService.deleteStockLogically(Long.parseLong(keyboard.nextLine())))
+				    				System.out.println("Borrado con exito");
+				    			else
+				    				System.out.println("No se pudo borrar");
+				    			break;}
+			    			case 6: { 
+				    			System.out.println("Ingrese el id del stock que desea restaurar");
+				    			if(stockService.restore(Long.parseLong(keyboard.nextLine())))
+				    				System.out.println("Restaurado con exito");
+				    			else
+				    				System.out.println("No se pudo restaurar");
+				    			break;}
+			    		}
+	    			}
+	    		default: {break;}	
+	    		}
     		}catch(Exception e)
     		{
-    			System.out.println(e.getMessage());
+    			System.err.println(e.getMessage());
+    			keyboard.nextLine();
     		}
     	}
-    	
-    
     }
     
     private static int menu()
     {
-    	clear();
     	System.out.println(" --- MENU PRINCIPAL ---");
+    	
+    	
+    	System.out.println("1 - CRUD Categoria");
+    	
+    	System.out.println("2 - CRUD Producto");
+    	
+    	System.out.println("3 - CRUD Stock");
+    	
+    	System.out.println("0 - Cerrar");
+    	
+    	return Integer.parseInt(keyboard.nextLine());
+    	
+    }
+    
+    private static int categoryMenu()
+    {
+    	System.out.println(" --- MENU CATEGORIA ---");
+    	
     	System.out.println("1 - Crear categoria");
-    	System.out.println("2 - Crear producto");
-    	System.out.println("2 - Crear stock");
-    	System.out.println("4 - Leer categoria");
-    	System.out.println("5 - Leer producto");
-    	System.out.println("6 - Leer stock");
-    	System.out.println("7 - Modificar categoria");
-    	System.out.println("8 - Modificar producto");
-    	System.out.println("9 - Modificar stock");
-    	System.out.println("10- Eliminar categoria");
-    	System.out.println("11- Eliminar producto");
-    	System.out.println("12- Eliminar stock");
-    	System.out.println("13- Eliminar (logicamente) categoria");
-    	System.out.println("14- Eliminar (logicamente) producto");
-    	System.out.println("15- Eliminar (logicamente) stock");
-    	System.out.println("16- Recuperar categoria");
-    	System.out.println("17- Recuperar producto");
-    	System.out.println("18- Recuperar stock");
+    	
+    	System.out.println("2 - Leer categoria");
+    	
+    	System.out.println("3 - Modificar categoria");
+    	
+    	System.out.println("4- Eliminar categoria");
+    	
+    	System.out.println("5- Eliminar (logicamente) categoria");
+    	
+    	System.out.println("6- Recuperar categoria");
+    	
     	return Integer.parseInt(keyboard.nextLine());
     }
     
-    private static void clear() 
+    private static int productMenu()
     {
-    	try {
-    		
-        } catch (Exception e) 
-    	{
-            System.out.println(e.getMessage());
-        }
+    	System.out.println(" --- MENU PRODUCTO ---");
+    	
+    	System.out.println("1 - Crear producto");
+    	
+    	System.out.println("2 - Leer producto");
+    	
+    	System.out.println("3 - Modificar producto");
+    	
+    	System.out.println("4- Eliminar producto");
+    	
+    	System.out.println("5- Eliminar (logicamente) producto");
+    	
+    	System.out.println("6- Recuperar producto");
+    	
+    	return Integer.parseInt(keyboard.nextLine());
+    }
+    
+    private static int stockMenu()
+    {
+    	System.out.println(" --- MENU STOCK ---");
+    	
+    	System.out.println("1 - Crear stock");
+    	
+    	System.out.println("2 - Leer stock");
+    	
+    	System.out.println("3 - Modificar stock");
+    	
+    	System.out.println("4- Eliminar stock");
+    	
+    	System.out.println("5- Eliminar (logicamente) stock");
+    	
+    	System.out.println("6- Recuperar stock");
+    	
+    	return Integer.parseInt(keyboard.nextLine());
     }
     
     private static long inputCategoryData(boolean modify)
     {
-    	clear();
     	if(modify)
     		System.out.println(" --- MODIFICAR CATEGORIA --- ");
     	else
@@ -193,7 +250,6 @@ public class App
     
     private static void inputProductData(boolean modify)
     {
-    	clear();
     	if(modify)
     		System.out.println(" --- MODIFICAR PRODUCTO --- ");
     	else
@@ -245,7 +301,6 @@ public class App
     
     private static long inputStockData(boolean modify)
     {
-    	clear();
     	if(modify)
     		System.out.println(" --- MODIFICAR STOCK --- ");
     	else
@@ -274,9 +329,8 @@ public class App
     }
     
     
-    private static void outputCategoryData()
+    private static void outputCategoryData() throws Exception
     {
-    	clear();
 		System.out.println(" --- MOSTRAR CATEGORIA --- ");
 		System.out.println("Ingrese el codigo de categoria: ");
 		
@@ -288,13 +342,12 @@ public class App
 		System.out.println("nombre: " + category.getName());
 		System.out.println("descripcion: " + category.getDescription());
 		}else
-			System.out.println("Categoria no encontrada :/");
+			throw new Exception("Categoria no encontrada :/");
 		keyboard.nextLine();
     }
     
-    private static void outputProductData()
+    private static void outputProductData() throws Exception
     {
-    	clear();
 		System.out.println(" --- MOSTRAR PRODUCTO --- ");
 		System.out.println("Ingrese el codigo de producto: ");
 		
@@ -309,13 +362,12 @@ public class App
 		System.out.println("categoria: " + producto.getCategory().getName());
 		System.out.println("stock: " + producto.getStock().getQuantity());
 		}else
-			System.out.println("Producto no encontrado :/");
+			throw new Exception("Producto no encontrado :/");
 		keyboard.nextLine();
     }
     
-    private static void outputStockData()
+    private static void outputStockData() throws Exception
     {
-    	clear();
 		System.out.println(" --- MOSTRAR STOCK --- ");
 		System.out.println("Ingrese el codigo de stock: ");
 		
@@ -327,7 +379,7 @@ public class App
 		System.out.println("cantidad: " + stock.getQuantity());
 		System.out.println("locacion: " + stock.getLocationCode());
 		}else
-			System.out.println("Categoria no encontrada :/");
+			throw new Exception("Stock no encontrado :/");
 		keyboard.nextLine();
     }
 }

@@ -1,8 +1,11 @@
-package ar.com.gl.shop.product.services;
+package ar.com.gl.shop.product.services.impl;
 
 import java.util.ArrayList;
+
+import ar.com.gl.shop.product.exceptions.IdAlreadyExistException;
 import ar.com.gl.shop.product.model.Category;
 import ar.com.gl.shop.product.repository.RepositoryImpl;
+import ar.com.gl.shop.product.services.CategoryService;
 
 
 public class CategoryServiceImpl implements CategoryService{
@@ -11,7 +14,18 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	public boolean createCategory(Long id, String name, String description)
 	{
-		return categories.add(new Category(id,name,description));
+		try {
+				for(Category category : categories)
+				{
+					if(category.getId() == id)
+						throw new IdAlreadyExistException();
+				}
+			return categories.add(new Category(id,name,description));
+		}catch(IdAlreadyExistException exception)
+		{
+			System.err.println(exception.getMessage());
+			return false;
+		}
 	}
 	
 	public Category readCategory(Long id)

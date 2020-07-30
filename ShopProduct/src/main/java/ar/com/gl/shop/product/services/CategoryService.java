@@ -1,7 +1,7 @@
 package ar.com.gl.shop.product.services;
 import ar.com.gl.shop.product.model.Category;
 
-interface CategoryService {
+public interface CategoryService {
 
 	public boolean createCategory(Long id, String name, String description);
 	public Category readCategory(Long id);

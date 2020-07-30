@@ -3,7 +3,7 @@ import ar.com.gl.shop.product.model.Category;
 import ar.com.gl.shop.product.model.Product;
 import ar.com.gl.shop.product.model.Stock;
 
-interface ProductService {
+public interface ProductService {
 
 	public boolean createProduct(Long id, String name, String description, Double price, Stock stock, Category category);
 	public Product readProduct(Long id);
