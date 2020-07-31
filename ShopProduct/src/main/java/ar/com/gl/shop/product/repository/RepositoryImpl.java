@@ -7,12 +7,19 @@ import ar.com.gl.shop.product.model.Category;
 import ar.com.gl.shop.product.model.Product;
 import ar.com.gl.shop.product.model.Stock;
 
-public class RepositoryImpl implements Repository{
+public class RepositoryImpl implements Repository {
 
-	private List<Product> listaProductos = new ArrayList<Product>();
-	private List<Category> listaCategorias = new ArrayList<Category>();
-	private List<Stock> listaStock = new ArrayList<Stock>();
+	private static List<Product> listaProductos;
+	private static List<Category> listaCategorias;
+	private static List<Stock> listaStock;
 	
+	
+	public RepositoryImpl() {
+		listaProductos = new ArrayList<Product>();
+		listaCategorias = new ArrayList<Category>();
+		listaStock = new ArrayList<Stock>();
+	}
+
 	@Override
 	public Category saveCategory(Category category) {
 		listaCategorias.add(category);
@@ -49,8 +56,18 @@ public class RepositoryImpl implements Repository{
 	@Override
 	public void deleteCategory(Category category) {
 		listaCategorias.remove(category);
+
+	}
+
+	@Override
+	public void deleteProduct(Product product) {
+		listaProductos.remove(product);
 		
 	}
 
+	@Override
+	public void deleteStock(Stock stock) {
+		listaStock.remove(stock);
+	}
 
 }

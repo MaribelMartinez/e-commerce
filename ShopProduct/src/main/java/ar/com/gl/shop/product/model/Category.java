@@ -1,20 +1,28 @@
 package ar.com.gl.shop.product.model;
 
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Category {
 
 	private String description;
 	private String name;
 	private Long id;
-	private Date deleteAt;
+	 private static final AtomicLong count = new AtomicLong(0); 
+	private Date disabledDate;
 	
-	public Date getDeleteAt() {
-		return deleteAt;
+	public Category() {
+		id = count.incrementAndGet();
 	}
-	public void setDeleteAt(Date deleteAt) {
-		this.deleteAt = deleteAt;
+	
+	public Date getDisabledDate() {
+		return disabledDate;
 	}
+
+	public void setDisabledDate(Date disabledDate) {
+		this.disabledDate = disabledDate;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -32,5 +40,9 @@ public class Category {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public String toString() {
+		return "Name: "+name+"\nDescription: "+description;
 	}
 }

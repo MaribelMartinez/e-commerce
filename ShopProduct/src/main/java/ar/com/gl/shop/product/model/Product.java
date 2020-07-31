@@ -1,5 +1,8 @@
 package ar.com.gl.shop.product.model;
 
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicLong;
+
 public class Product {
 
 	private Long id;
@@ -8,7 +11,19 @@ public class Product {
 	private Double price;
 	private Stock stock;
 	private Category category;
+	private Date disabledDate;
+	 private static final AtomicLong count = new AtomicLong(0); 
+	 
+	 public Product() {
+		 id = count.incrementAndGet();
+	 }
 	
+	public Date getDisabledDate() {
+		return disabledDate;
+	}
+	public void setDisabledDate(Date disabledDate) {
+		this.disabledDate = disabledDate;
+	}
 	public Long getId() {
 		return id;
 	}

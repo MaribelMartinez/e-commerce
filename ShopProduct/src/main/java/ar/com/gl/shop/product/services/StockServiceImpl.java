@@ -10,28 +10,29 @@ public class StockServiceImpl implements StockService{
 	RepositoryImpl repository = new RepositoryImpl();
 	
 	@Override
-	public Boolean create(Stock newStock) {
-		if(newStock != null) {
-			repository.saveStock(newStock);
-			return true;
+	public Stock create(Stock stock) {
+		
+		if(stock != null) {
+			repository.saveStock(stock);
+			return stock;
 		}else {
-			return false;
+			return null;
 		}
-	}
-
-	@Override
-	public List<Stock> findAllStock() {
-		return repository.findAllStock();
+		
 	}
 
 	@Override
 	public Boolean update(Stock stock) {
+		
 		if(stock.getId() != null) {
-			if(existStockById(stock.getId())) {
+			
+			if(existsStockById(stock.getId())) {
+				
 				Stock stockUpdate = findStockById(stock.getId());
 				stockUpdate.setLocationCode(stock.getLocationCode());
 				stockUpdate.setQuantity(stock.getQuantity());
 				repository.saveStock(stockUpdate);
+				
 			}
 			return true;
 		}else {
@@ -40,32 +41,45 @@ public class StockServiceImpl implements StockService{
 	}
 
 	@Override
-	public Boolean delete(Stock stock) {
-		// TODO Auto-generated method stub
-		return false;
+	public Boolean delete(Long id) {
+		
+		repository.deleteStock(findStockById(id));
+		
+		if (existsStockById(id)) {
+			return false;
+		} else {
+			return true;
+		}
+		
 	}
 
 	@Override
 	public Stock findStockById(Long id) {
+		
 		List<Stock> listStock = repository.findAllStock();
 		Stock stock = null;
+		
 		for(int i = 0; i<listStock.size(); i++) {
-			while(listStock.get(i).getId().equals(id)) {
+			if(listStock.get(i).getId().equals(id)) {
 				stock = listStock.get(i);
 			}
 		}
+		
 		return stock;
 	}
 
 	@Override
-	public Boolean existStockById(Long id) {
+	public Boolean existsStockById(Long id) {
+		
 		List<Stock> listStock = repository.findAllStock();
 		Boolean exists = false;
+		
 		for(Stock productList : listStock) {
 			if(productList.getId().equals(id)) {
 				exists = true;
 			}
 		}
+		
 		return exists;
 	}
 
