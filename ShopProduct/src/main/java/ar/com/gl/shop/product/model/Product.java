@@ -78,9 +78,9 @@ public class Product {
 			  + "              Nombre: " + name + "\n"
 			  + "              Descripción: " + description + "\n"
 			  + "              Precio: $" + price + "\n"
-			  + "              Stock: " + stock.getQuantity() + "\n"
-			  + "              Locacion: " + stock.getLocationCode() + "\n"
-			  + "              Categoria: " + category.getName();
+			  + "              Stock: " + this.stock.getQuantity() + "\n"
+			  + "              Locacion: " + this.stock.getLocationCode() + "\n"
+			  + "              Categoria: " + this.category.getName();
 	}
 	
 	
