@@ -16,6 +16,12 @@ public class Product {
 
 	}
 	
+	public Product(Long id) {
+		this.id = id;
+		this.enabled = true;
+
+	}
+	
 	public Product(Long id, String name, String description, Double price, Category category) {
 		
 		this.id = id;

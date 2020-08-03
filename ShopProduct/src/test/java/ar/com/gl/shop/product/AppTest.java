@@ -46,11 +46,7 @@ public class AppTest{
 		category = new Category();
 		product = new Product();
 		stock = new Stock();
-		
 	}
-	
-	
-	
 	
 	@Nested
 	@DisplayName("Exception")
@@ -190,8 +186,6 @@ public class AppTest{
 				String actual = product.toString();
 				
 				assertEquals(expect, actual);
-
-				
 				
 			}
 			
@@ -244,6 +238,7 @@ public class AppTest{
 				
 				String expected = "Stock [id=" + 23 + ", quantity=" + quantity + ", locationCode=" + location + "]";
 				String actual = stock.toString();
+				
 				assertEquals(expected, actual);
 			}
 			
@@ -267,6 +262,35 @@ public class AppTest{
 		@Nested
 		@DisplayName("Category Service")
 		class CategoryServiceTest{
+			
+			@Test
+			@DisplayName("Create category test")
+			void createCategoryTest() {
+				Long id = 1l;
+				String name = "Nombre generico";
+				String description = "Descripcion generica";
+				
+				categoryService.create(id, name, description);
+				
+				category = categoryService.findOneByiD(id, true);
+				
+				assertEquals(id + name + description, category.getId() + category.getName() + category.getDescription());
+				
+			}
+			
+			@Test
+			@DisplayName("Crear primeros objetos")
+			void createFirstObjects() {
+				categoryService.agregarPrimerosObjetos();
+				Category theCategories[] = new Category[3];
+				
+				theCategories[0]= categoryService.findOneByiD(1l, true);
+				theCategories[1]= categoryService.findOneByiD(2l, true);
+				theCategories[2]= categoryService.findOneByiD(3l, true);
+				
+				assertArrayEquals(theCategories, repository.findAllCategory().toArray(), "deberian ser los mismos objetos");
+				
+			}
 			
 			@Nested
 			@DisplayName("Find one By id method")
@@ -328,7 +352,7 @@ public class AppTest{
 		 class findAllMethod{
 			 
 			 @Test
-			 @DisplayName("find all true")
+			 @DisplayName("find all true as param")
 			 void findAllTrue() {
 				 
 				 List<Category> categoryList = new ArrayList<>();
@@ -347,7 +371,7 @@ public class AppTest{
 			 }
 			 
 			 @Test
-			 @DisplayName("find all true")
+			 @DisplayName("find all false as param")
 			 void findAllFlase() {
 				 
 				 List<Category> categoryList = new ArrayList<>();
@@ -447,20 +471,212 @@ public class AppTest{
 
 		}
 		
-		@Test
-		@DisplayName("Create category test")
-		void createCategoryTest() {
+		@Nested
+		@DisplayName("Product Service")
+		class ProductServiceTest{
+			
+			@Test
+			@DisplayName("Create product test")
+			void createProductTest() {
+				Long id = 1l;
+				String name = "Nombre generico";
+				String description = "Descripcion generica";
+				Double price = 20d;
+				
+				product = new Product(id, name, description, price, category);
+				
+				productService.create(product);
+				
+				product = productService.findOneByiD(id, true);
+				
+				assertEquals(id + name + description + price + category, 
+						product.getId() + product.getName() + product.getDescription() + product.getPrice() + product.getCategory());
+				
+			}
+			
+			
+			@Nested
+			@DisplayName("Find one By id method")
+			class FindOneByIdMethod{
+				
+				@Test
+				@DisplayName("using true as a param")
+				void findOneByIdTrueTest() {
+					
+					Long id = 1l;
+					product = new Product(id);
+					
+					repository.saveProduct(product);
+					
+					Product theProduct = productService.findOneByiD(id, true);
+					
+					assertTrue(product.equals(theProduct), "deberían ser el mismo objeto");				
+					
+				}
+				
+				@Test
+				@DisplayName("using false as param")
+				void findOneByIdFalseTest() {
+					
+					Long id = 1l;
+					product = new Product(id);
+					
+					repository.saveProduct(product);
+					
+					Product theProduct = productService.findOneByiD(id, false);
+					
+					assertTrue(product.equals(theProduct), "deberían ser el mismo objeto");			
+					
+				}
+				
+				@Test
+				@DisplayName("Find one by id exception")
+				void findOneByIdExceptionTest() {
+					
+					Long id = 1l;
+					product = new Product(id);
+					
+					product.setEnabled(true);
+					
+					repository.saveProduct(product);
+					
+					Product theProduct = productService.findOneByiD(2l, false);
+					
+					assertNull(theProduct, "debería retornar null si no se encuentra");
+
+				}
+				
+			}
+			
+		 @Nested
+		 @DisplayName("find all method")
+		 class findAllMethod{
+			 
+			 @Test
+			 @DisplayName("find all true as param")
+			 void findAllTrue() {
+				 
+				 List<Product> productList = new ArrayList<>();
+				  				 
+				 product = new Product(1l);
+				 productList.add(product);
+				 repository.saveProduct(product);
+				 product = new Product(2l);
+				 productList.add(product);
+				 repository.saveProduct(product);
+				 
+				 
+				 
+				 assertArrayEquals(productList.toArray(), productService.findAll(true).toArray(), "Deberian contener los mismos objetos");				 
+				 
+			 }
+			 
+			 @Test
+			 @DisplayName("find all false as param")
+			 void findAllFlase() {
+				 
+				 List<Product> productList = new ArrayList<>();
+  				 
+				 product = new Product(1l);
+				 product.setEnabled(false);
+				 productList.add(product);				 
+				 repository.saveProduct(product);
+				 
+				 product = new Product(2l);
+				 product.setEnabled(false);
+				 productList.add(product);
+				 repository.saveProduct(product);
+				 
+				 
+				 
+				 assertArrayEquals(productList.toArray(), productService.findAll(false).toArray(), "Deberian contener los mismos objetos");				 
+				 
+			 }
+			 
+		 }
+		 
+		 @Test
+		 @DisplayName("Update by id")
+		 void updateByIdTest() {
+			 
 			Long id = 1l;
 			String name = "Nombre generico";
 			String description = "Descripcion generica";
-			
-			categoryService.create(id, name, description);
-			
-			category = categoryService.findOneByiD(id, true);
-			
-			assertEquals(id + name + description, category.getId() + category.getName() + category.getDescription());
-			
+			Double price = 20d;
+			 
+			 product = new Product(id, name, description, price, category);
+			 repository.saveProduct(product);
+			 
+			 String newName= "Nombre generico cambiado";
+			 
+			 product = new Product(id, newName, description, price, category);
+			 
+			 productService.updateById(product);
+			 
+			 assertEquals(newName, productService.findOneByiD(id, true).getName());
+			 
+		 }
+		 
+		 @Nested
+		 @DisplayName("Delete By Id Method")
+		 class DeleteByIdMethod{
+			 
+			 @Test
+			 @DisplayName("if enabled = true")
+			 void deleteByIdTrue() {
+				 
+				 Boolean bool = true;
+				 Long id = 1l;
+				 
+				 product = new Product(id);
+				 product.setEnabled(bool);
+				 repository.saveProduct(product);
+				 
+				 productService.deleteById(productService.findOneByiD(id, false));
+				 
+				 assertNull(productService.findOneByiD(id, true), "Tiene que devolver null si es eliminado corectamente");
+				 
+				 
+			 }
+			 
+			 @Test
+			 @DisplayName("if enabled = false")
+			 void deleteByIdFalse() {
+				 
+				 Boolean bool = false;
+				 Long id = 1l;
+				 
+				 product = new Product(id);
+				 product.setEnabled(bool);
+				 repository.saveProduct(product);
+				 
+				 productService.deleteById(productService.findOneByiD(id, false));
+				 
+				 assertNotNull(productService.findOneByiD(id, true), "Tiene que retornar un Product si se recupero correctamente");				 
+				 
+			 }
+		 }
+		 
+		 @Test
+		 @DisplayName("Force delete, delete fisico")
+		 void forceDelete() {
+			 
+			 Boolean bool = false;
+			 Long id = 1l;
+			 
+			 product = new Product(id);
+			 product.setEnabled(bool);
+			 repository.saveProduct(product);
+			 
+			 productService.forceDeleteById(productService.findOneByiD(id, false));
+			 
+			 assertNull(productService.findOneByiD(id, false), "Tiene que retornal null");
+			 
+		 }
+
 		}
+		
+
 	}
 }
 

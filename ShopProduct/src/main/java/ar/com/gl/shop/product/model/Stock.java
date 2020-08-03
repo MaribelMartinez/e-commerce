@@ -8,6 +8,7 @@ public class Stock {
 	Integer quantity;
 	String locationCode;
 	private static final AtomicLong count = new AtomicLong(0);
+	
 	public Stock() {
 		this.id = count.incrementAndGet();		
 	}
@@ -16,8 +17,7 @@ public class Stock {
 		this.id = count.incrementAndGet();
 		this.quantity = quantity;
 		this.locationCode = locationCode;
-	}	
-
+	}
 
 	public Integer getQuantity() {
 		return quantity;
