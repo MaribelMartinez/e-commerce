@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 import ar.com.gl.shop.product.model.Product;
 import ar.com.gl.shop.product.model.Stock;
-import ar.com.gl.shop.product.services.CategoryServiceImpl;
-import ar.com.gl.shop.product.services.ProductServiceImpl;
+import ar.com.gl.shop.product.services.impl.CategoryServiceImpl;
+import ar.com.gl.shop.product.services.impl.ProductServiceImpl;
 
 public class ProductMenu {
 

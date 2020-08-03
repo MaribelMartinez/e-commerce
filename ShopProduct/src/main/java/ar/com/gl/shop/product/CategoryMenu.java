@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import ar.com.gl.shop.product.model.Category;
-import ar.com.gl.shop.product.services.CategoryServiceImpl;
+import ar.com.gl.shop.product.services.impl.CategoryServiceImpl;
 
 public final class CategoryMenu {
 
