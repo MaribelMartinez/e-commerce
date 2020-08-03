@@ -12,6 +12,7 @@ public class Category {
 	}	
 	public Category(Long id) {		
 		this.id = id;
+		this.enabled = true;
 	}
 	
 	public Category(Long id, String name, String description) {

@@ -9,15 +9,15 @@ public class Stock {
 	String locationCode;
 	private static final AtomicLong count = new AtomicLong(0);
 	public Stock() {
-		
+		this.id = count.incrementAndGet();		
 	}
 	
 	public Stock(Integer quantity, String locationCode) {
 		this.id = count.incrementAndGet();
 		this.quantity = quantity;
 		this.locationCode = locationCode;
-	}
-	
+	}	
+
 
 	public Integer getQuantity() {
 		return quantity;
@@ -34,7 +34,7 @@ public class Stock {
 	
 	@Override
 	public String toString() {
-		return "Stock [id=" + id + ", quantity=" + quantity + ", locationCode=" + locationCode + "]";
+		return "Stock [id=" + this.id + ", quantity=" + quantity + ", locationCode=" + locationCode + "]";
 	}
 	
 	

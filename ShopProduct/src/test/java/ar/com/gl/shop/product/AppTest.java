@@ -1,6 +1,13 @@
 package ar.com.gl.shop.product;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -77,16 +84,6 @@ public class AppTest{
 	@Nested
 	@DisplayName("Testeo de modelos")
 	class ModelsTest{
-		
-		
-		@Nested
-		@DisplayName("Metodos clase repository")
-		class RepositoryTest{
-			
-			
-			
-		}
-
 		
 		@Nested
 		@DisplayName("Metodos clase Category")
@@ -239,11 +236,15 @@ public class AppTest{
 			@DisplayName("setName y getName")
 			void categorySetAndGetLocation() {
 				
-				String location = "Locacion Generica";
+				String location = "Locacion Generica";				
+				stock.setLocationCode(location);	
 				
-				stock.setLocationCode(location);
+				Integer quantity = 50;				
+				stock.setQuantity(quantity);
 				
-				assertEquals(location, stock.getLocationCode());
+				String expected = "Stock [id=" + 23 + ", quantity=" + quantity + ", locationCode=" + location + "]";
+				String actual = stock.toString();
+				assertEquals(expected, actual);
 			}
 			
 			@Test
@@ -256,17 +257,210 @@ public class AppTest{
 				
 				assertEquals(quantity, stock.getQuantity());
 			}
-			
-			
-			
-		
-		
-		
+		}	
 	}
-
-
 	
-	
+	@Nested
+	@DisplayName("Testeo de services")
+	class ServiceTest{
+		
+		@Nested
+		@DisplayName("Category Service")
+		class CategoryServiceTest{
+			
+			@Nested
+			@DisplayName("Find one By id method")
+			class FindOneByIdMethod{
+				
+				@Test
+				@DisplayName("using true as a param")
+				void findOneByIdTrueTest() {
+					
+					Long id = 1l;
+					category = new Category(id);
+					
+					repository.saveCategory(category);
+					
+					Category theCategory = categoryService.findOneByiD(id, true);
+					
+					assertTrue(category.equals(theCategory), "deberían ser el mismo objeto");				
+					
+				}
+				
+				@Test
+				@DisplayName("using false as param")
+				void findOneByIdFalseTest() {
+					
+					Long id = 1l;
+					category = new Category(id);
+					
+					category.setEnabled(false);
+					
+					repository.saveCategory(category);
+					
+					Category theCategory = categoryService.findOneByiD(id, false);				
+					
+					assertTrue(category.equals(theCategory), "deberían ser el mismo objeto");				
+					
+				}
+				
+				@Test
+				@DisplayName("Find one by id exception")
+				void findOneByIdExceptionTest() {
+					
+					Long id = 1l;
+					category = new Category(id);
+					
+					category.setEnabled(true);
+					
+					repository.saveCategory(category);
+					
+					Category theCategory = categoryService.findOneByiD(2l, true);
+					
+					assertNull(theCategory, "debería retornar null si no se encuentra");
+
+				}
+				
+			}
+			
+		 @Nested
+		 @DisplayName("find all method")
+		 class findAllMethod{
+			 
+			 @Test
+			 @DisplayName("find all true")
+			 void findAllTrue() {
+				 
+				 List<Category> categoryList = new ArrayList<>();
+				  				 
+				 category = new Category(1l);
+				 categoryList.add(category);
+				 repository.saveCategory(category);
+				 category = new Category(2l);
+				 categoryList.add(category);
+				 repository.saveCategory(category);
+				 
+				 
+				 
+				 assertArrayEquals(categoryList.toArray(), categoryService.findAll(true).toArray());				 
+				 
+			 }
+			 
+			 @Test
+			 @DisplayName("find all true")
+			 void findAllFlase() {
+				 
+				 List<Category> categoryList = new ArrayList<>();
+				  				 
+				 category = new Category(1l);
+				 category.setEnabled(false);
+				 categoryList.add(category);
+				 repository.saveCategory(category);
+				 
+				 category = new Category(2l);
+				 category.setEnabled(false);
+				 categoryList.add(category);
+				 repository.saveCategory(category);
+				 
+				 assertArrayEquals(categoryList.toArray(), categoryService.findAll(false).toArray(), "Deberian contener los mismos objetos");				 
+				 
+			 }
+			 
+		 }
+		 
+		 @Test
+		 @DisplayName("Update by id")
+		 void updateByIdTest() {
+			 
+			 Long id = 1l;
+			 
+			 category = new Category(id, "nombre generico", "descripcion generica");
+			 repository.saveCategory(category);
+			 
+			 String newName= "Nombre generico cambiado";
+			 
+			 category = new Category(id, newName, "descripcion generica");
+			 
+			 categoryService.updateById(category);
+			 
+			 assertEquals(newName, categoryService.findOneByiD(id, true).getName());
+			 
+		 }
+		 
+		 @Nested
+		 @DisplayName("Delete By Id Method")
+		 class DeleteByIdMethod{
+			 
+			 @Test
+			 @DisplayName("if enabled = true")
+			 void deleteByIdTrue() {
+				 
+				 Boolean bool = true;
+				 Long id = 1l;
+				 
+				 category = new Category(id);
+				 category.setEnabled(bool);
+				 repository.saveCategory(category);
+				 
+				 categoryService.deleteById(categoryService.findOneByiD(id, false));
+				 
+				 assertNull(categoryService.findOneByiD(id, true), "Tiene que devolver null si es eliminado corectamente");
+				 
+				 
+			 }
+			 
+			 @Test
+			 @DisplayName("if enabled = false")
+			 void deleteByIdFalse() {
+				 
+				 Boolean bool = false;
+				 Long id = 1l;
+				 
+				 category = new Category(id);
+				 category.setEnabled(bool);
+				 repository.saveCategory(category);
+				 
+				 categoryService.deleteById(categoryService.findOneByiD(id, false));
+				 
+				 assertNotNull(categoryService.findOneByiD(id, true), "Tiene que retornar un objeto si se recupero correctamente");
+				 
+				 
+			 }
+		 }
+		 
+		 @Test
+		 @DisplayName("Force delete, delete fisico")
+		 void forceDelete() {
+			 
+			 Boolean bool = false;
+			 Long id = 1l;
+			 
+			 category = new Category(id);
+			 category.setEnabled(bool);
+			 repository.saveCategory(category);
+			 
+			 categoryService.forceDeleteById(categoryService.findOneByiD(id, false));
+			 
+			 assertNull(categoryService.findOneByiD(id, false), "Tiene que retornar un objeto si se recupero correctamente");
+			 
+		 }
+
+		}
+		
+		@Test
+		@DisplayName("Create category test")
+		void createCategoryTest() {
+			Long id = 1l;
+			String name = "Nombre generico";
+			String description = "Descripcion generica";
+			
+			categoryService.create(id, name, description);
+			
+			category = categoryService.findOneByiD(id, true);
+			
+			assertEquals(id + name + description, category.getId() + category.getName() + category.getDescription());
+			
+		}
 	}
 }
 
