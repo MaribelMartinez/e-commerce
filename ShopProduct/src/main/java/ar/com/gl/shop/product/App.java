@@ -19,7 +19,7 @@ public class App {
     	ProductService productService = new ProductServiceImpl();
     	StockService stockService = new StockServiceImpl();
     	
-    	categoryService.agregarPrimerosObjetos();
+    	//categoryService.agregarPrimerosObjetos();
     	
     	do {
     		System.out.println("========Pagina de inicio========\n"

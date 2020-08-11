@@ -20,7 +20,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import ar.com.gl.shop.product.model.Category;
-import ar.com.gl.shop.product.repositoryimpl.RepositoryImpl;
+import ar.com.gl.shop.product.repositoryimpl.CategoryRepositoryImpl;
 import ar.com.gl.shop.product.servicesimpl.CategoryServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,7 +33,7 @@ class CategoryServicesImplTest {
 	
 	
 	@Mock
-	RepositoryImpl repositoryImpl;
+	CategoryRepositoryImpl repositoryImpl;
 	
 	
 	Category category1,category2,category3;
@@ -52,9 +52,9 @@ class CategoryServicesImplTest {
 		category3= new Category(3l,"category3", "descripcion3");
 		
 		
-		lenient().when(repositoryImpl.findCategoryById(1l)).thenReturn(category1);
-		lenient().when(repositoryImpl.findCategoryById(2l)).thenReturn(category2);
-		lenient().when(repositoryImpl.findCategoryById(3l)).thenReturn(category3);
+		lenient().when(repositoryImpl.getCategory(1l)).thenReturn(category1);
+		lenient().when(repositoryImpl.getCategory(2l)).thenReturn(category2);
+		lenient().when(repositoryImpl.getCategory(3l)).thenReturn(category3);
 		
 				
 		categoryService.agregarPrimerosObjetos();
@@ -71,7 +71,7 @@ class CategoryServicesImplTest {
 				
 		};
 		
-		lenient().when(repositoryImpl.findAllCategory()).thenReturn(Arrays.asList(theCategories));
+		lenient().when(repositoryImpl.getAll()).thenReturn(Arrays.asList(theCategories));
 		assertArrayEquals(categoryService.findAll().toArray(), theCategories);
 	}
 	
@@ -82,14 +82,14 @@ class CategoryServicesImplTest {
 	@DisplayName("testFindByIdNotNull")
 	void testCase_2()
 	{	
-		Mockito.when(repositoryImpl.findCategoryById(3L)).thenReturn(category3);
+		Mockito.when(repositoryImpl.getCategory(3L)).thenReturn(category3);
 		assertNotNull(categoryService.findById(3L, true));
 	}
 
 	@Test
 	@DisplayName("testFindByIdNull")
 	void testCase_3()
-	{	Mockito.when(repositoryImpl.findCategoryById(3L)).thenReturn(null);
+	{	Mockito.when(repositoryImpl.getCategory(3L)).thenReturn(null);
 		assertNull(categoryService.findById(3L, true));
 	}
 	
@@ -109,7 +109,7 @@ class CategoryServicesImplTest {
 	@DisplayName("testDeleteById")
 	void testCase_4()
 	{	categoryService.deleteById(category1);
-		when(repositoryImpl.findCategoryById(1l)).thenReturn(null);
+		when(repositoryImpl.getCategory(1l)).thenReturn(null);
 		assertNull(categoryService.findById(1l, true));
 		assertNull(categoryService.findById(1l, false));
 	}
@@ -125,7 +125,7 @@ class CategoryServicesImplTest {
 		Category[] theCategories = {category1, category2, category3};
 		
 		
-		when(repositoryImpl.findAllCategory()).thenReturn(Arrays.asList(theCategories));		
+		when(repositoryImpl.getAll()).thenReturn(Arrays.asList(theCategories));		
 		assertTrue(categoryService.findAllDisabled().size() ==3 );
 	}
 
@@ -147,7 +147,7 @@ class CategoryServicesImplTest {
 	{
 		
 		categoryService.forceDeleteById(category1);
-		when(repositoryImpl.findCategoryById(category1.getId())).thenReturn(null);
+		when(repositoryImpl.getCategory(category1.getId())).thenReturn(null);
 		assertNull(categoryService.findById(1l, true));
 		assertNull(categoryService.findById(1l, false));
 	}

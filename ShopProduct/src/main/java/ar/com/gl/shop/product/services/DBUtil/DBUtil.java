@@ -10,9 +10,9 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 public class DBUtil {
 
 	private static final String PROPERTIES_PATH = "src/main/resources/db.properties";
-	private static final String DB_URL = "";
-	private static final String DB_USERNAME = "";
-	private static final String DB_PASSWORD = "";
+	private static final String DB_URL = "MYSQL_DB_URL";
+	private static final String DB_USERNAME = "MYSQL_DB_USERNAME";
+	private static final String DB_PASSWORD = "MYSQL_DB_PASSWORD";
 	
 	private static Properties properties = null;
 	private static MysqlDataSource dataSource;

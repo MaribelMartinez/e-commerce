@@ -6,20 +6,19 @@ import java.util.stream.Collectors;
 
 import ar.com.gl.shop.product.exceptions.ItemNotFound;
 import ar.com.gl.shop.product.model.Category;
-import ar.com.gl.shop.product.repository.Repository;
-import ar.com.gl.shop.product.repositoryimpl.RepositoryImpl;
+import ar.com.gl.shop.product.repositoryimpl.CategoryRepositoryImpl;
 import ar.com.gl.shop.product.services.CategoryService;
 
 public class CategoryServiceImpl implements CategoryService {	
 	
 	
-	Repository repositoryImpl;
+	CategoryRepositoryImpl repositoryImpl;
 	
 	Category theCategory;
 	
 	public CategoryServiceImpl() {
 		
-		repositoryImpl = new RepositoryImpl();
+		repositoryImpl = new CategoryRepositoryImpl();
 		
 		theCategory = new Category();
 	}
@@ -27,9 +26,9 @@ public class CategoryServiceImpl implements CategoryService {
 	//Categorias iniciales
 	public void agregarPrimerosObjetos() {		
 		
-		repositoryImpl.saveCategory(new Category(1l, "Consumibles", "Para comer"));
-		repositoryImpl.saveCategory(new Category(2l,"Limpieza", "Para limpiar"));
-		repositoryImpl.saveCategory(new Category(3l,"Ropa", "Para vestir"));	
+		repositoryImpl.save(new Category(2l, "Consumibles", "Para-comer"));
+		repositoryImpl.save(new Category(3l,"Limpieza", "Para-limpiar"));
+		repositoryImpl.save(new Category(4l,"Ropa", "Para-vestir"));	
 		
 	}
 	
@@ -40,10 +39,10 @@ public class CategoryServiceImpl implements CategoryService {
 		
 		theCategory = new Category(id,name,description);
 		
-		repositoryImpl.saveCategory(theCategory);
+		repositoryImpl.save(theCategory);
 		
 		//ordernar por id
-		repositoryImpl.findAllCategory()
+		repositoryImpl.getAll()
 		.sort((o1,o2)->o1.getId()
 		.compareTo(o2.getId()));
 		
@@ -54,7 +53,7 @@ public class CategoryServiceImpl implements CategoryService {
 		
 		List<Category> theCategoriesEnabled = new ArrayList<>();
 
-		for (Category category : repositoryImpl.findAllCategory()) {
+		for (Category category : repositoryImpl.getAll()) {
 			if (category.getEnabled()) {
 				theCategoriesEnabled.add(category);
 			}
@@ -66,14 +65,14 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Category> findAllDisabled(){		
 		
-		return repositoryImpl.findAllCategory();
+		return repositoryImpl.getAll();
 		
 	}
 
 	
 	@Override
 	public Category findById(Long id, Boolean searchEnable){	
-		Category category = repositoryImpl.findCategoryById(id);	
+		Category category = repositoryImpl.getCategory(id);	
 		try {
 			if(category == null) {
 				throw new ItemNotFound("No se encontró categoria con este id");
@@ -94,9 +93,9 @@ public class CategoryServiceImpl implements CategoryService {
 
 		theCategory = findById(category.getId(), true);
 	
-		repositoryImpl.deleteCategory(theCategory);
+		repositoryImpl.delete(theCategory);
 		
-		repositoryImpl.saveCategory(category);
+		repositoryImpl.save(category);
 
 		
 		return theCategory;		
@@ -117,7 +116,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void  forceDeleteById(Category theCategory){
 		
-		repositoryImpl.deleteCategory(theCategory);
+		repositoryImpl.delete(theCategory);
 			
 	}
 	

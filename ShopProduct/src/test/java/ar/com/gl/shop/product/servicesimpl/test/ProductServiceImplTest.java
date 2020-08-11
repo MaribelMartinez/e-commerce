@@ -9,9 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,8 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ar.com.gl.shop.product.model.Category;
 import ar.com.gl.shop.product.model.Product;
 import ar.com.gl.shop.product.model.Stock;
-import ar.com.gl.shop.product.repositoryimpl.RepositoryImpl;
-import ar.com.gl.shop.product.services.ProductService;
+import ar.com.gl.shop.product.repositoryimpl.ProductRepositoryImpl;
 import ar.com.gl.shop.product.servicesimpl.ProductServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,7 +31,7 @@ class ProductServiceImplTest {
 	ProductServiceImpl productService = new ProductServiceImpl();
 	
 	@Mock
-	RepositoryImpl repositoryImpl;
+	ProductRepositoryImpl repositoryImpl;
 
 	Product product1, product2;
 	
@@ -46,8 +43,8 @@ class ProductServiceImplTest {
 		product2.setStock(new Stock(50, "MDZ"));
 		productService.create(product1);
 		productService.create(product2);
-		lenient().when(repositoryImpl.findProductById(2L)).thenReturn(product2);
-		lenient().when(repositoryImpl.findProductById(1L)).thenReturn(product1);
+		lenient().when(repositoryImpl.getProduct(2L)).thenReturn(product2);
+		lenient().when(repositoryImpl.getProduct(1L)).thenReturn(product1);
 	}
 
 	@Test
@@ -58,7 +55,7 @@ class ProductServiceImplTest {
 				productService.findById(2l, true)
 		};	
 			
-		when(repositoryImpl.findAllProduct()).thenReturn(Arrays.asList(theProducts));
+		when(repositoryImpl.getAll()).thenReturn(Arrays.asList(theProducts));
 		
 		assertArrayEquals(theProducts, productService.findAll().toArray());		
 	}
@@ -71,10 +68,10 @@ class ProductServiceImplTest {
 		Product productToDelete = productService.findById(1L, true);
 		productService.deleteById(productToDelete);
 		
-		when(repositoryImpl.findProductById(1L)).thenReturn(null);
+		when(repositoryImpl.getProduct(1L)).thenReturn(null);
 		assertNull(productService.findById(1L, true));
 		
-		when(repositoryImpl.findProductById(1L)).thenReturn(product1);
+		when(repositoryImpl.getProduct(1L)).thenReturn(product1);
 		assertNotNull(productService.findById(1L, false));
 	}
 
@@ -89,7 +86,7 @@ class ProductServiceImplTest {
 		
 		Product[] theProducts = {product1,product2};	
 		
-		when(repositoryImpl.findAllProduct()).thenReturn(Arrays.asList(theProducts));
+		when(repositoryImpl.getAll()).thenReturn(Arrays.asList(theProducts));
 		
 		Boolean sameSize = productService.findAllDisabled().size() == 2;
 		assertTrue(sameSize);
@@ -125,7 +122,7 @@ class ProductServiceImplTest {
 		Product product = productService.findById(2L, true);
 		productService.forceDeleteById(product);
 		
-		when(repositoryImpl.findProductById(2L)).thenReturn(null);
+		when(repositoryImpl.getProduct(2L)).thenReturn(null);
 		assertNull(productService.findById(2L, true));
 		assertNull(productService.findById(2L, false));
 	}

@@ -9,14 +9,10 @@ import ar.com.gl.shop.product.services.StockService;
 public class StockServiceImpl implements StockService {
 	
     private StockRepository repositoryImpl;
-	
-	private Stock theStock;	
-	
-	
+
 	public StockServiceImpl() {
 		
 		repositoryImpl = StockRepositoryImpl.getInstance();
-		theStock = new Stock();
 	}
 	
 	@Override
@@ -26,7 +22,7 @@ public class StockServiceImpl implements StockService {
 
 	@Override
 	public Stock findById(Long id, Boolean searchEnable){	
-		Stock stock = repositoryImpl.getById(id);	
+		Stock stock = repositoryImpl.getStock(id);	
 		try {
 			if(stock == null) {
 				throw new ItemNotFound("No se encontró stock con este id");

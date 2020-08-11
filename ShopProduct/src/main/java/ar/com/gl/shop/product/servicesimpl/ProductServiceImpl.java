@@ -6,12 +6,12 @@ import java.util.List;
 import ar.com.gl.shop.product.exceptions.ItemNotFound;
 import ar.com.gl.shop.product.model.Category;
 import ar.com.gl.shop.product.model.Product;
-import ar.com.gl.shop.product.repositoryimpl.RepositoryImpl;
+import ar.com.gl.shop.product.repositoryimpl.ProductRepositoryImpl;
 import ar.com.gl.shop.product.services.ProductService;
 
 public class ProductServiceImpl implements ProductService {
 	
-	private RepositoryImpl repositoryImpl;
+	private ProductRepositoryImpl repositoryImpl;
 	private StockServiceImpl stockService;
 	
 	private Product theProduct;	
@@ -19,18 +19,18 @@ public class ProductServiceImpl implements ProductService {
 	
 	public ProductServiceImpl() {
 		
-		repositoryImpl = new RepositoryImpl();
+		repositoryImpl = new ProductRepositoryImpl();
 		stockService = new StockServiceImpl();
 		
 		theProduct = new Product();
 	}
 
-	public RepositoryImpl getRepositoryImpl() {
+	public ProductRepositoryImpl getProductRepositoryImpl() {
 		return repositoryImpl;
 	}
 
 	public List<Product> getTheProducts() {
-		return repositoryImpl.findAllProduct();
+		return repositoryImpl.getAll();
 	}
 
 	public Product getTheProduct() {
@@ -43,10 +43,10 @@ public class ProductServiceImpl implements ProductService {
 		theProduct = new Product(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getCategory());		
 		
 		theProduct.setStock(stockService.create(product.getStock()));
-		repositoryImpl.saveProduct(theProduct);
+		repositoryImpl.save(theProduct);
 		
 		//ordernar por id
-		repositoryImpl.findAllProduct()
+		repositoryImpl.getAll()
 		.sort((o1,o2)->o1.getId()
 		.compareTo(o2.getId()));
 		
@@ -56,12 +56,12 @@ public class ProductServiceImpl implements ProductService {
 		
 		List<Product> theProducts = new ArrayList<>();	
 		
-		int listSize = repositoryImpl.findAllProduct().size();
+		int listSize = repositoryImpl.getAll().size();
 		
 		
 		for (int i = 0; i < listSize; i++) {
 			
-			theProduct = repositoryImpl.findAllProduct().get(i);
+			theProduct = repositoryImpl.getAll().get(i);
 			
 			if (theProduct.getEnabled()) {
 				
@@ -84,12 +84,12 @@ public class ProductServiceImpl implements ProductService {
 	
 	public List<Product> findAllDisabled(){
 		
-		return repositoryImpl.findAllProduct();
+		return repositoryImpl.getAll();
 	}
 	
 	@Override
 	public Product findById(Long id, Boolean searchEnable){	
-		Product product = repositoryImpl.findProductById(id);	
+		Product product = repositoryImpl.getProduct(id);	
 		try {
 			if(product == null) {
 				throw new ItemNotFound("No se encontró producto con este id");
@@ -109,7 +109,7 @@ public class ProductServiceImpl implements ProductService {
 	public Product updateById(Product product){
 		
 		
-		Product theProduct = repositoryImpl.findProductById(product.getId());
+		Product theProduct = repositoryImpl.getProduct(product.getId());
 		
 		String newName = product.getName();
 		
@@ -147,7 +147,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void  forceDeleteById(Product theProduct){
 		
-		repositoryImpl.deleteProduct(theProduct);
+		repositoryImpl.delete(theProduct);
 				
 	}
 
