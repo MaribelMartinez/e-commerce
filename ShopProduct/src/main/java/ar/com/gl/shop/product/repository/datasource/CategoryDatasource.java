@@ -1,4 +1,4 @@
-package ar.com.gl.shop.product.servicesimpl;
+package ar.com.gl.shop.product.repository.datasource;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 import ar.com.gl.shop.product.model.Category;
-import ar.com.gl.shop.product.model.Product;
 import ar.com.gl.shop.product.model.Resources;
-import ar.com.gl.shop.product.services.DataSource;
 
 public class CategoryDatasource extends DataSource{
 	
@@ -29,8 +27,7 @@ public class CategoryDatasource extends DataSource{
 		String name = category.getName();
 		String description = category.getDescription();
 		
-		final String query = "INSERT INTO category (name, description, enabled) values ('"+ name +"', '" + description +"', '1');";
-		
+		final String query = "INSERT INTO category (name, description, enabled) values ('"+ name +"', '" + description +"', '1');";		
 		
 		return (Category)connectionPost(query, category);
 	}

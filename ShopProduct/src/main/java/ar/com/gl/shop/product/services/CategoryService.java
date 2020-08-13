@@ -2,7 +2,6 @@ package ar.com.gl.shop.product.services;
 
 import java.util.List;
 import ar.com.gl.shop.product.model.Category;
-import ar.com.gl.shop.product.model.Resources;
 
 public interface CategoryService {
 	

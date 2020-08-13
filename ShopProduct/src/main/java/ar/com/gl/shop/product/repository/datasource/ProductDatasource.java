@@ -1,4 +1,4 @@
-package ar.com.gl.shop.product.servicesimpl;
+package ar.com.gl.shop.product.repository.datasource;
 
 
 import java.sql.ResultSet;
@@ -7,11 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import ar.com.gl.shop.product.model.Category;
 import ar.com.gl.shop.product.model.Product;
 import ar.com.gl.shop.product.model.Resources;
-import ar.com.gl.shop.product.model.Stock;
-import ar.com.gl.shop.product.services.DataSource;
 
 public class ProductDatasource extends DataSource{
 	

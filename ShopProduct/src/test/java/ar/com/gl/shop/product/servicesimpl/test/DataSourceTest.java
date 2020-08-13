@@ -3,7 +3,7 @@ package ar.com.gl.shop.product.servicesimpl.test;
 import org.junit.jupiter.api.Test;
 
 import ar.com.gl.shop.product.model.Category;
-import ar.com.gl.shop.product.servicesimpl.CategoryDatasource;
+import ar.com.gl.shop.product.repository.datasource.CategoryDatasource;
 
 public class DataSourceTest {
 	

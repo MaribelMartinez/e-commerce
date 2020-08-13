@@ -39,18 +39,6 @@ public class ProductServiceImpl implements ProductService {
 		return INSTANCE;
 	}
 
-	/*public RepositoryImpl getRepositoryImpl() {
-		return repositoryImpl;
-	}*/
-
-	/*public List<Product> getTheProducts() {
-		return repositoryImpl.findAllProduct();
-	}*/
-
-	/*public Product getTheProduct() {
-		return theProduct;
-	}*/
-
 	@Override
 	public Product create(Product product) {		
 		

@@ -1,24 +1,21 @@
 package ar.com.gl.shop.product.repositoryimpl;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import ar.com.gl.shop.product.model.Category;
 import ar.com.gl.shop.product.model.Product;
 import ar.com.gl.shop.product.repository.Repository;
-import ar.com.gl.shop.product.servicesimpl.CategoryDatasource;
-import ar.com.gl.shop.product.servicesimpl.ProductDatasource;
+import ar.com.gl.shop.product.repository.datasource.CategoryDatasource;
+import ar.com.gl.shop.product.repository.datasource.ProductDatasource;
 
 public class RepositoryImpl implements Repository {
 
-	//private static List<Category> listaCategorias;
-	//private static List<Product> listaProductos;
+
 	private CategoryDatasource categoryDatasource = CategoryDatasource.getInstance();
 	private ProductDatasource productDatasource = ProductDatasource.getInstance();
 
 	public RepositoryImpl() {
-		//listaCategorias = new ArrayList<Category>();
-		//listaProductos = new ArrayList<Product>();
 	}
 
 	//Category

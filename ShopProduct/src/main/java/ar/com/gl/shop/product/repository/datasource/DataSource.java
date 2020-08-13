@@ -1,4 +1,4 @@
-package ar.com.gl.shop.product.services;
+package ar.com.gl.shop.product.repository.datasource;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

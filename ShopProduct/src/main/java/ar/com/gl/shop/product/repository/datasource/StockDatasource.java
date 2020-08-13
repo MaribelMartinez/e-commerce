@@ -1,13 +1,10 @@
-package ar.com.gl.shop.product.servicesimpl;
+package ar.com.gl.shop.product.repository.datasource;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
-import ar.com.gl.shop.product.model.Product;
-import ar.com.gl.shop.product.model.Resources;
 import ar.com.gl.shop.product.model.Stock;
-import ar.com.gl.shop.product.services.DataSource;
 
 public class StockDatasource extends DataSource{
 	
