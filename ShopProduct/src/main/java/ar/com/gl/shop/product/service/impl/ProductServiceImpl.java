@@ -47,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public Product findById(Long id, Boolean searchEnable){	
+	public Product getById(Long id, Boolean searchEnable){	
 		Product product = repositoryImpl.findProductById(id);	
 		try {
 			if(Objects.isNull(product)) {

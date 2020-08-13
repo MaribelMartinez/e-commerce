@@ -364,7 +364,7 @@ public class Methods {
 				//Valida input
 				id = Long.parseLong(Methods.validarInput("Inserte un id: ", "^\\d+"));				
 				
-				productOptional = Optional.ofNullable(productService.findById(id, true));
+				productOptional = Optional.ofNullable(productService.getById(id, true));
 					
 					if (!productOptional.isPresent()) {
 						
@@ -406,7 +406,7 @@ public class Methods {
 				
 				id = Long.parseLong(Methods.validarInput("\nInserte un id: ", "^\\d+"));	
 				
-				productOptional = Optional.ofNullable(productService.findById(id, true));
+				productOptional = Optional.ofNullable(productService.getById(id, true));
 				
 				if (!productOptional.isPresent()) {
 					
@@ -527,7 +527,7 @@ public class Methods {
 				
 				id = Long.parseLong(Methods.validarInput("Seleccione un id: ", "^\\d+"));
 				
-				productOptional = Optional.ofNullable(productService.findById(id, false));
+				productOptional = Optional.ofNullable(productService.getById(id, false));
 						
 				
 

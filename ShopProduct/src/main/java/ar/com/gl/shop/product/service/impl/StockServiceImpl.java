@@ -39,7 +39,7 @@ public class StockServiceImpl implements StockService {
 
 	
 	@Override
-	public Stock findById(Long id, Boolean searchEnable){	
+	public Stock getById(Long id, Boolean searchEnable){	
 		Stock stock = stockRepositoryImpl.findById(id);	
 		try {
 			if(Objects.isNull(stock)) {

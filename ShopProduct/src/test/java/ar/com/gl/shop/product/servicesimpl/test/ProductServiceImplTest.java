@@ -51,8 +51,8 @@ class ProductServiceImplTest {
 	@DisplayName("test find all")
 	void testCase_1() {	
 		Product[] theProducts = {
-				productService.findById(1l, true),
-				productService.findById(2l, true)
+				productService.getById(1l, true),
+				productService.getById(2l, true)
 		};	
 			
 		when(repositoryImpl.findAllProduct()).thenReturn(Arrays.asList(theProducts));
@@ -65,21 +65,21 @@ class ProductServiceImplTest {
 	@DisplayName("test Delete")
 	void testCase_2()
 	{
-		Product productToDelete = productService.findById(1L, true);
+		Product productToDelete = productService.getById(1L, true);
 		productService.delete(productToDelete);
 		
 		when(repositoryImpl.findProductById(1L)).thenReturn(null);
-		assertNull(productService.findById(1L, true));
+		assertNull(productService.getById(1L, true));
 		
 		when(repositoryImpl.findProductById(1L)).thenReturn(product1);
-		assertNotNull(productService.findById(1L, false));
+		assertNotNull(productService.getById(1L, false));
 	}
 
 	@Test
 	@DisplayName("test FindAllDisabled")
 	void testCase_3() {		
-		productService.findById(1l, true).setEnabled(false);
-		productService.findById(2l, true).setEnabled(false);
+		productService.getById(1l, true).setEnabled(false);
+		productService.getById(2l, true).setEnabled(false);
 		
 		product1.setEnabled(false);
 		product2.setEnabled(false);
@@ -96,10 +96,10 @@ class ProductServiceImplTest {
 	@DisplayName("test recover product")
 	void testCase_4()
 	{
-		Product  product = productService.findById(2L, true);
+		Product  product = productService.getById(2L, true);
 		product.setEnabled(false);
 		productService.softDelete(product);
-		Product  recoveredProducty = productService.findById(2L, true);
+		Product  recoveredProducty = productService.getById(2L, true);
 		assertNotNull(recoveredProducty);
 	}
 	
@@ -108,7 +108,7 @@ class ProductServiceImplTest {
 	@DisplayName("test UpdateById")
 	void testCase_5()
 	{
-		Product updateProduct = productService.findById(1L, true);
+		Product updateProduct = productService.getById(1L, true);
 		updateProduct.setName("updated product");
 		productService.update(updateProduct);
 		assertEquals("updated product",updateProduct.getName());
@@ -119,12 +119,12 @@ class ProductServiceImplTest {
 	@DisplayName("test ForceDelete")
 	void testCase_6()
 	{
-		Product product = productService.findById(2L, true);
+		Product product = productService.getById(2L, true);
 		productService.delete(product);
 		
 		when(repositoryImpl.findProductById(2L)).thenReturn(null);
-		assertNull(productService.findById(2L, true));
-		assertNull(productService.findById(2L, false));
+		assertNull(productService.getById(2L, true));
+		assertNull(productService.getById(2L, false));
 	}
 	
 }

@@ -42,7 +42,7 @@ class StockServiceImplTest {
 	void testCase_0()
 	{
 		when(repositoryMock.getById(2L)).thenReturn(stock);
-		Stock stockFind = stockService.findById(2L, true);
+		Stock stockFind = stockService.getById(2L, true);
 		assertEquals(stock, stockFind); 
 	}
 
@@ -51,7 +51,7 @@ class StockServiceImplTest {
 	void testCase_1() {
 		stock.setId(5L);
 		when(repositoryMock.getById(5L)).thenReturn(stock);
-		assertEquals(5L,stockService.findById(5L, true).getId());
+		assertEquals(5L,stockService.getById(5L, true).getId());
 	}
 	
 	@Test
@@ -59,7 +59,7 @@ class StockServiceImplTest {
 	void testCase_2() {
 		stock.setQuantity(78);
 		when(repositoryMock.getById(5L)).thenReturn(stock);
-		assertEquals(78,stockService.findById(5L, true).getQuantity());
+		assertEquals(78,stockService.getById(5L, true).getQuantity());
 	}
 	
 	@Test
@@ -67,7 +67,7 @@ class StockServiceImplTest {
 	void testCase_3() {
 		stock.setLocationCode("MDZ");
 		when(repositoryMock.getById(5L)).thenReturn(stock);
-		assertEquals("MDZ",stockService.findById(5L, true).getLocationCode());
+		assertEquals("MDZ",stockService.getById(5L, true).getLocationCode());
 	}
 
 	@Test
@@ -75,10 +75,10 @@ class StockServiceImplTest {
 	void testCase_4() {
 		stock.setEnabled(true);
 		when(repositoryMock.getById(5L)).thenReturn(stock);//
-		stockService.softDelete(stockService.findById(5L, true));
-		assertNull(stockService.findById(5L, true));
-		assertNotNull(stockService.findById(5L, false)); 
-		assertFalse(stockService.findById(5L, false).getEnabled());
+		stockService.softDelete(stockService.getById(5L, true));
+		assertNull(stockService.getById(5L, true));
+		assertNotNull(stockService.getById(5L, false)); 
+		assertFalse(stockService.getById(5L, false).getEnabled());
 	}
 	
 	
@@ -86,8 +86,8 @@ class StockServiceImplTest {
 	@DisplayName("findById() - null")
 	void testCase_5() {
 		when(repositoryMock.getById(6L)).thenReturn(null);//
-		assertNull(stockService.findById(6L, true));
-		assertNull(stockService.findById(6L, false));
+		assertNull(stockService.getById(6L, true));
+		assertNull(stockService.getById(6L, false));
 	}
 	
 	
@@ -95,9 +95,9 @@ class StockServiceImplTest {
 	@DisplayName("softDelete() - true")
 	void testCase_6() {
 		when(repositoryMock.getById(5L)).thenReturn(stock);//
-		stockService.softDelete(stockService.findById(5L, false));
-		assertNotNull(stockService.findById(5L, true));
-		assertTrue(stockService.findById(5L, false).getEnabled());
+		stockService.softDelete(stockService.getById(5L, false));
+		assertNotNull(stockService.getById(5L, true));
+		assertTrue(stockService.getById(5L, false).getEnabled());
 	}
 	
 	
@@ -107,7 +107,7 @@ class StockServiceImplTest {
 		stock.setLocationCode("SJ");
 		stock.setQuantity(10);
 		when(repositoryMock.getById(5L)).thenReturn(stock);//
-		assertEquals("Stock [id=5, quantity=10, locationCode=SJ]",stockService.findById(5L, true).toString());
+		assertEquals("Stock [id=5, quantity=10, locationCode=SJ]",stockService.getById(5L, true).toString());
 	}
 	
 	@Test
@@ -123,10 +123,10 @@ class StockServiceImplTest {
 	@Test
 	@DisplayName("delete()")
 	void testCase_9() {
-		stockService.delete(stockService.findById(5L, true));
+		stockService.delete(stockService.getById(5L, true));
 		when(repositoryMock.getById(5L)).thenReturn(null);//
-		assertNull(stockService.findById(5L, true));
-		assertNull(stockService.findById(5L, false));
+		assertNull(stockService.getById(5L, true));
+		assertNull(stockService.getById(5L, false));
 	}
 	
 	

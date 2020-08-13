@@ -20,7 +20,7 @@ public interface ProductService {
 	 * @param bool
 	 * @return Repository
 	 */
-	public Product findById(Long id, Boolean bool);
+	public Product getById(Long id, Boolean bool);
 	public Product update(Product product);
 	public Product softDelete(Product theProduct);
 	public void  delete(Product theProduct);
