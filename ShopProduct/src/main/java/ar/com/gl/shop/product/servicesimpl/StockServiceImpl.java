@@ -1,5 +1,7 @@
 package ar.com.gl.shop.product.servicesimpl;
 
+import java.util.Objects;
+
 import ar.com.gl.shop.product.exceptions.ItemNotFound;
 import ar.com.gl.shop.product.model.Stock;
 import ar.com.gl.shop.product.repository.StockRepository;
@@ -12,23 +14,34 @@ public class StockServiceImpl implements StockService {
 	
 	private Stock theStock;	
 	
+	private static StockServiceImpl INSTANCE;
 	
-	public StockServiceImpl() {
+	
+	private StockServiceImpl() {
 		
 		repositoryImpl = StockRepositoryImpl.getInstance();
 		theStock = new Stock();
 	}
 	
+	public static StockServiceImpl getInstance() {
+		
+		if (Objects.isNull(INSTANCE)) {
+			return INSTANCE = new StockServiceImpl();
+		}
+		
+		return INSTANCE;
+	}
+	
 	@Override
 	public Stock create(Stock stock){
-		return repositoryImpl.save(new Stock(stock.getQuantity(), stock.getLocationCode()));
+		return repositoryImpl.save(stock);
     }
 
 	@Override
 	public Stock findById(Long id, Boolean searchEnable){	
 		Stock stock = repositoryImpl.getById(id);	
 		try {
-			if(stock == null) {
+			if(Objects.isNull(stock)) {
 				throw new ItemNotFound("No se encontró stock con este id");
 			}
 			if(searchEnable) {
@@ -56,12 +69,8 @@ public class StockServiceImpl implements StockService {
 	}
 
 	@Override
-	public Stock update(Stock stock){		
-
-		Stock oldStock = findById(stock.getId(), true);
-		repositoryImpl.delete(oldStock);
+	public Stock update(Stock stock){	
 		
-		repositoryImpl.save(stock);
-		return stock;		
+		return repositoryImpl.update(stock);	
 	}
 }

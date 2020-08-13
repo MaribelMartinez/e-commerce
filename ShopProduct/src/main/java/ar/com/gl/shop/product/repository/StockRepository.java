@@ -10,6 +10,7 @@ public interface StockRepository {
 	public Stock getById(Long id);
 	public void delete(Stock stock);
 	public List<Stock> getAll();
+	public Stock update(Stock stock);
 	
 
 	

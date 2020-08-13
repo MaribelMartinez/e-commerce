@@ -31,7 +31,7 @@ import ar.com.gl.shop.product.servicesimpl.ProductServiceImpl;
 @ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {
 	@InjectMocks
-	ProductServiceImpl productService = new ProductServiceImpl();
+	ProductServiceImpl productService = ProductServiceImpl.getInstance();
 	
 	@Mock
 	RepositoryImpl repositoryImpl;
@@ -40,9 +40,9 @@ class ProductServiceImplTest {
 	
 	@BeforeEach
 	void setUp(){
-		product1 = new Product(1L,"Test product", "Product for testing", 500.0, new Category());
+		//product1 = new Product(1L,"Test product", "Product for testing", 500.0, new Category());
 		product1.setStock(new Stock(30, "SJ"));
-		product2 = new Product(2L,"Test product2", "Second product for testing", 500.0, new Category());
+		//product2 = new Product(2L,"Test product2", "Second product for testing", 500.0, new Category());
 		product2.setStock(new Stock(50, "MDZ"));
 		productService.create(product1);
 		productService.create(product2);
@@ -113,7 +113,7 @@ class ProductServiceImplTest {
 	{
 		Product updateProduct = productService.findById(1L, true);
 		updateProduct.setName("updated product");
-		productService.updateById(updateProduct);
+		productService.update(updateProduct);
 		assertEquals("updated product",updateProduct.getName());
 	}
 	

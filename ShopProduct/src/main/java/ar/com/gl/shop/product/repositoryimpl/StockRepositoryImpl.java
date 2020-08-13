@@ -11,6 +11,7 @@ public class StockRepositoryImpl implements Serializable,StockRepository {
 
 	private static final long serialVersionUID = 3876426318410983253L;
 	private static StockRepositoryImpl INSTANCE;
+	private StockDatasource stockDatasource = StockDatasource.getInstance();
 	private  List<Stock> list;
 	
 	private StockRepositoryImpl() {
@@ -26,8 +27,14 @@ public class StockRepositoryImpl implements Serializable,StockRepository {
 	
 	@Override
 	public Stock save(Stock stock) {
-		list.add(stock);
-		return stock;
+		
+		return stockDatasource.createStock(stock);
+	}
+	
+	@Override
+	public Stock update(Stock stock) {
+		
+		return stockDatasource.updateStock(stock);
 	}
 
 	@Override

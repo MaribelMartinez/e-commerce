@@ -1,6 +1,6 @@
 package ar.com.gl.shop.product.model;
 
-public class Category {
+public class Category implements Resources{
 
 	private Long id;
 	private String name;
@@ -15,8 +15,7 @@ public class Category {
 		this.enabled = true;
 	}
 	
-	public Category(Long id, String name, String description) {
-		this.id = id;
+	public Category(String name, String description) {
 		this.name = name;
 		this.description = description;
 		this.enabled = true;

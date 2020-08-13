@@ -22,8 +22,7 @@ class CategoryServicesImplTest {
 	@BeforeEach
 	void setUp() {
 	
-		categoryService = new CategoryServiceImpl();
-		categoryService.agregarPrimerosObjetos();
+		categoryService = CategoryServiceImpl.getInstance();
 		
 	}
 
@@ -63,7 +62,7 @@ class CategoryServicesImplTest {
 	{
 		Category updateCategory = categoryService.findById(1L, true);
 		updateCategory.setName("Consumables");
-		categoryService.updateById(updateCategory);
+		categoryService.update(updateCategory);
 		assertEquals(categoryService.findById(1L, true).toString(),updateCategory.toString());
 	}
 	
@@ -114,7 +113,7 @@ class CategoryServicesImplTest {
 	@Test
 	@DisplayName("test Create")
 	void testCase_9() {
-		categoryService.create(4L, "Test Category", "Category for testing");
+		categoryService.create("Test Category", "Category for testing");
 		
 		Category category = categoryService.findById(4l, true);
 		

@@ -2,9 +2,9 @@ package ar.com.gl.shop.product.servicesimpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ar.com.gl.shop.product.exceptions.ItemNotFound;
-import ar.com.gl.shop.product.model.Category;
 import ar.com.gl.shop.product.model.Product;
 import ar.com.gl.shop.product.repositoryimpl.RepositoryImpl;
 import ar.com.gl.shop.product.services.ProductService;
@@ -16,13 +16,23 @@ public class ProductServiceImpl implements ProductService {
 	
 	private Product theProduct;	
 	
+	private static ProductServiceImpl INSTANCE;
 	
-	public ProductServiceImpl() {
+	private ProductServiceImpl() {
 		
 		repositoryImpl = new RepositoryImpl();
-		stockService = new StockServiceImpl();
+		stockService = StockServiceImpl.getInstance();
 		
 		theProduct = new Product();
+	}
+	
+	public static ProductServiceImpl getInstance() {
+		
+		if (Objects.isNull(INSTANCE)) {
+			return INSTANCE = new ProductServiceImpl();
+		}
+		
+		return INSTANCE;
 	}
 
 	public RepositoryImpl getRepositoryImpl() {
@@ -38,30 +48,23 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void create(Product product) {
+	public Product create(Product product) {		
 		
-		theProduct = new Product(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getCategory());		
-		
-		theProduct.setStock(stockService.create(product.getStock()));
-		repositoryImpl.saveProduct(theProduct);
-		
-		//ordernar por id
-		repositoryImpl.findAllProduct()
-		.sort((o1,o2)->o1.getId()
-		.compareTo(o2.getId()));
+		return repositoryImpl.saveProduct(product);
 		
 	}
 	@Override
 	public List<Product> findAll() {	
 		
-		List<Product> theProducts = new ArrayList<>();	
+		List<Product> productList = repositoryImpl.findAllProduct();	
 		
-		int listSize = repositoryImpl.findAllProduct().size();
+		List<Product> theProducts = new ArrayList<>();
 		
 		
-		for (int i = 0; i < listSize; i++) {
+		
+		for (int i = 0; i < productList.size(); i++) {
 			
-			theProduct = repositoryImpl.findAllProduct().get(i);
+			theProduct = productList.get(i);
 			
 			if (theProduct.getEnabled()) {
 				
@@ -70,14 +73,6 @@ public class ProductServiceImpl implements ProductService {
 			
 			
 		}
-		
-		/*if (bool) {
-			return repositoryImpl.findAllProduct().stream()
-					.filter(Product->Product.getEnabled())
-					.collect(Collectors.toList());
-		}
-		
-		return repositoryImpl.findAllProduct();*/
 		
 		return theProducts;
 	}
@@ -91,7 +86,7 @@ public class ProductServiceImpl implements ProductService {
 	public Product findById(Long id, Boolean searchEnable){	
 		Product product = repositoryImpl.findProductById(id);	
 		try {
-			if(product == null) {
+			if(Objects.isNull(product)) {
 				throw new ItemNotFound("No se encontró producto con este id");
 			}
 			if(searchEnable) {
@@ -106,48 +101,23 @@ public class ProductServiceImpl implements ProductService {
 	
 
 	@Override
-	public Product updateById(Product product){
+	public Product update(Product product){
 		
-		
-		Product theProduct = repositoryImpl.findProductById(product.getId());
-		
-		String newName = product.getName();
-		
-		theProduct.setName(newName);		
-
-		String newDescription = product.getDescription();
-		
-		theProduct.setDescription(newDescription);
-		
-		Double newPrice = product.getPrice();
-		
-		theProduct.setPrice(newPrice);
-		
-		Category newCategory = product.getCategory();
-		
-		theProduct.setCategory(newCategory);		
-
-		theProduct.setStock(stockService.update(product.getStock()));
-		
-		return theProduct;		
+		return repositoryImpl.updateProduct(product);		
 		
 	}
 	
 
 	@Override
-	public void  deleteById(Product theProduct){
+	public Product deleteById(Product theProduct){
 		
-		if (theProduct.getEnabled()) {
-			theProduct.setEnabled(false);
-		}else {
-			theProduct.setEnabled(true);
-			}
+		return repositoryImpl.deleteProduct(theProduct);
 	}
 	
 	@Override
 	public void  forceDeleteById(Product theProduct){
 		
-		repositoryImpl.deleteProduct(theProduct);
+		repositoryImpl.forceDeleteProduct(theProduct);
 				
 	}
 

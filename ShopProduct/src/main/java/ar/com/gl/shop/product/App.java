@@ -1,5 +1,6 @@
 package ar.com.gl.shop.product;
 
+
 import ar.com.gl.shop.product.services.CategoryService;
 import ar.com.gl.shop.product.services.ProductService;
 import ar.com.gl.shop.product.services.StockService;
@@ -11,15 +12,15 @@ import ar.com.gl.shop.product.utils.Methods;
 public class App {
     public static void main( String[] args ){
     	
-    	
+
     	
     	String input;
     	
-    	CategoryService categoryService = new CategoryServiceImpl();
-    	ProductService productService = new ProductServiceImpl();
-    	StockService stockService = new StockServiceImpl();
+    	CategoryService categoryService = CategoryServiceImpl.getInstance();
+    	ProductService productService =  ProductServiceImpl.getInstance();
+    	StockService stockService = StockServiceImpl.getInstance();
     	
-    	categoryService.agregarPrimerosObjetos();
+    	//categoryService.agregarPrimerosObjetos();
     	
     	do {
     		System.out.println("========Pagina de inicio========\n"
