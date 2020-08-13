@@ -1,79 +1,90 @@
 package ar.com.gl.shop.product.repository.impl;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import ar.com.gl.shop.product.model.Category;
 import ar.com.gl.shop.product.model.Product;
-import ar.com.gl.shop.product.model.Stock;
 import ar.com.gl.shop.product.repository.Repository;
+import ar.com.gl.shop.product.repository.datasource.CategoryDatasource;
+import ar.com.gl.shop.product.repository.datasource.ProductDatasource;
 
 public class RepositoryImpl implements Repository {
 
-	private static List<Category> listaCategorias;
-	private static List<Product> listaProductos;
 
+	private CategoryDatasource categoryDatasource = CategoryDatasource.getInstance();
+	private ProductDatasource productDatasource = ProductDatasource.getInstance();
 
 	public RepositoryImpl() {
-		listaCategorias = new ArrayList<Category>();
-		listaProductos = new ArrayList<Product>();
-
 	}
 
 	//Category
 	@Override
-	public Category saveCategory(Category category) {
-		listaCategorias.add(category);
-		return category;
+	public Category createCategory(Category category) {
+		return categoryDatasource.create(category);
 	}
-
-	@Override
-	public void deleteCategory(Category category) {
-		listaCategorias.remove(category);
-
-	}
-
-	@Override
-	public List<Category> findAllCategory() {
-		return listaCategorias;
-	}
-
+	
 	@Override
 	public Category findCategoryById(Long id) {
-		for (Category category : listaCategorias) {
-			if (category.getId().equals(id)) {
-				return category;
-			}
-		}
-		return null;
+		return categoryDatasource.findById(id);
+	}
+	
+	@Override
+	public List<Category> findAllCategory() {
+		return categoryDatasource.findAll();
+	}
+	
+	@Override
+	public Category updateCategory(Category category) {
+		return categoryDatasource.update(category);
+	}
+	
+	@Override
+	public Category softDeleteCategory(Category category) {
+		return categoryDatasource.softDelete(category);
+
+	}
+
+	@Override
+	public Category deleteCategory(Category category) {
+		return categoryDatasource.delete(category);
+
 	}
 		
 	// PRODUCT
 
 	@Override
-	public Product saveProduct(Product product) {
-		listaProductos.add(product);
-		return product;
+	public Product createProduct(Product product) {		
+		return productDatasource.create(product);
+	}
+	
+	@Override
+	public Product findProductById(Long id) {
+		return productDatasource.findById(id);
 	}
 
 	@Override
 	public List<Product> findAllProduct() {
-		return listaProductos;
+		return productDatasource.findAll();
+	}
+	
+	@Override
+	public Product updateProduct(Product product) {
+		return productDatasource.update(product);
 	}
 
 	@Override
-	public void deleteProduct(Product product) {
-		listaProductos.remove(product);
+	public Product softDeleteProduct(Product product) {
+		return productDatasource.softDelete(product);
 	}
-
+	
 	@Override
-	public Product findProductById(Long id) {
-		for (Product product : listaProductos) {
-			if (product.getId().equals(id)) {
-				return product;
-			}
-		}
-		return null;
+	public Product deleteProduct(Product product) {
+		return productDatasource.delete(product);
 	}
+	
+
+
+
 
 }

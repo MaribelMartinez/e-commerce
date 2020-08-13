@@ -4,24 +4,31 @@ import java.util.List;
 
 import ar.com.gl.shop.product.model.Category;
 import ar.com.gl.shop.product.model.Product;
-import ar.com.gl.shop.product.model.Stock;
 
 public interface Repository {
 
-	public Category saveCategory(Category category);
+	public Category createCategory(Category category);
 
-	public void deleteCategory(Category category);
+	public Category softDeleteCategory(Category category);
 
 	public List<Category> findAllCategory();
 	
 	public Category findCategoryById(Long id);
 
-	public Product saveProduct(Product category);
+	public Product createProduct(Product category);
 
 	public List<Product> findAllProduct();
 
-	public void deleteProduct(Product product);
+	public Product softDeleteProduct(Product product);
 	
 	public Product findProductById(Long id);
+
+	public Category updateCategory(Category category);
+
+	public Category deleteCategory(Category category);
+
+	public Product updateProduct(Product product);
+
+	Product deleteProduct(Product product);
 
 }

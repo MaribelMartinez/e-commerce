@@ -37,9 +37,9 @@ class ProductServiceImplTest {
 	
 	@BeforeEach
 	void setUp(){
-		product1 = new Product(1L,"Test product", "Product for testing", 500.0, new Category());
+		product1 = new Product("Test product", "Product for testing", 500.0, new Category());
 		product1.setStock(new Stock(30, "SJ"));
-		product2 = new Product(2L,"Test product2", "Second product for testing", 500.0, new Category());
+		product2 = new Product("Test product2", "Second product for testing", 500.0, new Category());
 		product2.setStock(new Stock(50, "MDZ"));
 		productService.create(product1);
 		productService.create(product2);
@@ -62,11 +62,11 @@ class ProductServiceImplTest {
 
 	
 	@Test
-	@DisplayName("test DeleteById")
+	@DisplayName("test Delete")
 	void testCase_2()
 	{
 		Product productToDelete = productService.findById(1L, true);
-		productService.deleteById(productToDelete);
+		productService.delete(productToDelete);
 		
 		when(repositoryImpl.findProductById(1L)).thenReturn(null);
 		assertNull(productService.findById(1L, true));
@@ -98,7 +98,7 @@ class ProductServiceImplTest {
 	{
 		Product  product = productService.findById(2L, true);
 		product.setEnabled(false);
-		productService.deleteById(product);
+		productService.softDelete(product);
 		Product  recoveredProducty = productService.findById(2L, true);
 		assertNotNull(recoveredProducty);
 	}
@@ -110,7 +110,7 @@ class ProductServiceImplTest {
 	{
 		Product updateProduct = productService.findById(1L, true);
 		updateProduct.setName("updated product");
-		productService.updateById(updateProduct);
+		productService.update(updateProduct);
 		assertEquals("updated product",updateProduct.getName());
 	}
 	
@@ -120,7 +120,7 @@ class ProductServiceImplTest {
 	void testCase_6()
 	{
 		Product product = productService.findById(2L, true);
-		productService.forceDeleteById(product);
+		productService.delete(product);
 		
 		when(repositoryImpl.findProductById(2L)).thenReturn(null);
 		assertNull(productService.findById(2L, true));

@@ -2,21 +2,18 @@ package ar.com.gl.shop.product.model;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-public class Stock {
+public class Stock implements Resources{
 
 	private Long id;
 	private Integer quantity;
 	private String locationCode;
 	private Boolean enabled;
 	
-	private static final AtomicLong count = new AtomicLong(0);
-	
 	public Stock() {
 		enabled = true;
 	}
 	
 	public Stock(Integer quantity, String locationCode) {
-		this.id = count.incrementAndGet();
 		this.quantity = quantity;
 		this.locationCode = locationCode;
 		enabled = true;

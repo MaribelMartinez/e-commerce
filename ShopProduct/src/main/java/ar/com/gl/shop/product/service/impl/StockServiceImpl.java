@@ -1,5 +1,7 @@
 package ar.com.gl.shop.product.service.impl;
 
+import java.util.Objects;
+
 import ar.com.gl.shop.product.exceptions.ItemNotFound;
 import ar.com.gl.shop.product.model.Stock;
 import ar.com.gl.shop.product.repository.StockRepository;
@@ -8,27 +10,39 @@ import ar.com.gl.shop.product.service.StockService;
 
 public class StockServiceImpl implements StockService {
 	
-    private StockRepository repositoryImpl;
+    private StockRepository stockRepositoryImpl;
 	
 	private Stock theStock;	
 	
+	private static StockServiceImpl INSTANCE;
 	
-	public StockServiceImpl() {
+	
+	private StockServiceImpl() {
 		
-		repositoryImpl = StockRepositoryImpl.getInstance();
+		stockRepositoryImpl = StockRepositoryImpl.getInstance();
 		theStock = new Stock();
+	}
+	
+	public static StockServiceImpl getInstance() {
+		
+		if (Objects.isNull(INSTANCE)) {
+			return INSTANCE = new StockServiceImpl();
+		}
+		
+		return INSTANCE;
 	}
 	
 	@Override
 	public Stock create(Stock stock){
-		return repositoryImpl.save(new Stock(stock.getQuantity(), stock.getLocationCode()));
+		return stockRepositoryImpl.save(stock);
     }
 
+	
 	@Override
 	public Stock findById(Long id, Boolean searchEnable){	
-		Stock stock = repositoryImpl.getById(id);	
+		Stock stock = stockRepositoryImpl.findById(id);	
 		try {
-			if(stock == null) {
+			if(Objects.isNull(stock)) {
 				throw new ItemNotFound("No se encontró stock con este id");
 			}
 			if(searchEnable) {
@@ -39,29 +53,25 @@ public class StockServiceImpl implements StockService {
 		}
 		return stock;		
 	}
+	
+	
+	@Override
+	public Stock update(Stock stock){	
+		
+		return stockRepositoryImpl.update(stock);	
+	}
 
 	@Override
 	public void delete(Stock stock){
-		repositoryImpl.delete(stock);
+		stockRepositoryImpl.delete(stock);
 	}
+
 
 	@Override
-	public void softDelete(Stock stock){
-		
-		if (stock.getEnabled()) {
-			stock.setEnabled(false);
-		}else {
-			stock.setEnabled(true);
-			}
+	public Stock softDelete(Stock stock){
+
+		return stockRepositoryImpl.softDeleteStock(stock);
 	}
 
-	@Override
-	public Stock update(Stock stock){		
 
-		Stock oldStock = findById(stock.getId(), true);
-		repositoryImpl.delete(oldStock);
-		
-		repositoryImpl.save(stock);
-		return stock;		
-	}
 }
