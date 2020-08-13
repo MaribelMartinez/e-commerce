@@ -10,7 +10,7 @@ import ar.com.gl.shop.product.services.StockService;
 
 public class StockServiceImpl implements StockService {
 	
-    private StockRepository repositoryImpl;
+    private StockRepository stockRepositoryImpl;
 	
 	private Stock theStock;	
 	
@@ -19,7 +19,7 @@ public class StockServiceImpl implements StockService {
 	
 	private StockServiceImpl() {
 		
-		repositoryImpl = StockRepositoryImpl.getInstance();
+		stockRepositoryImpl = StockRepositoryImpl.getInstance();
 		theStock = new Stock();
 	}
 	
@@ -34,12 +34,13 @@ public class StockServiceImpl implements StockService {
 	
 	@Override
 	public Stock create(Stock stock){
-		return repositoryImpl.save(stock);
+		return stockRepositoryImpl.save(stock);
     }
 
+	
 	@Override
 	public Stock findById(Long id, Boolean searchEnable){	
-		Stock stock = repositoryImpl.getById(id);	
+		Stock stock = stockRepositoryImpl.findById(id);	
 		try {
 			if(Objects.isNull(stock)) {
 				throw new ItemNotFound("No se encontró stock con este id");
@@ -52,25 +53,25 @@ public class StockServiceImpl implements StockService {
 		}
 		return stock;		
 	}
-
-	@Override
-	public void delete(Stock stock){
-		repositoryImpl.delete(stock);
-	}
-
-	@Override
-	public void softDelete(Stock stock){
-		
-		if (stock.getEnabled()) {
-			stock.setEnabled(false);
-		}else {
-			stock.setEnabled(true);
-			}
-	}
-
+	
+	
 	@Override
 	public Stock update(Stock stock){	
 		
-		return repositoryImpl.update(stock);	
+		return stockRepositoryImpl.update(stock);	
 	}
+
+	@Override
+	public void delete(Stock stock){
+		stockRepositoryImpl.delete(stock);
+	}
+
+
+	@Override
+	public Stock softDelete(Stock stock){
+
+		return stockRepositoryImpl.softDeleteStock(stock);
+	}
+
+
 }

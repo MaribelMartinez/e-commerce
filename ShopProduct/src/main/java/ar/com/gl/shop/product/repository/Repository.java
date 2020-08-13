@@ -7,28 +7,28 @@ import ar.com.gl.shop.product.model.Product;
 
 public interface Repository {
 
-	public Category saveCategory(Category category);
+	public Category createCategory(Category category);
 
-	public Category deleteCategory(Category category);
+	public Category softDeleteCategory(Category category);
 
 	public List<Category> findAllCategory();
 	
 	public Category findCategoryById(Long id);
 
-	public Product saveProduct(Product category);
+	public Product createProduct(Product category);
 
 	public List<Product> findAllProduct();
 
-	public Product deleteProduct(Product product);
+	public Product softDeleteProduct(Product product);
 	
 	public Product findProductById(Long id);
 
 	public Category updateCategory(Category category);
 
-	public Category forceDeleteCategory(Category category);
+	public Category deleteCategory(Category category);
 
 	public Product updateProduct(Product product);
 
-	Product forceDeleteProduct(Product product);
+	Product deleteProduct(Product product);
 
 }

@@ -69,7 +69,7 @@ class ProductServiceImplTest {
 	void testCase_2()
 	{
 		Product productToDelete = productService.findById(1L, true);
-		productService.deleteById(productToDelete);
+		productService.softDelete(productToDelete);
 		
 		when(repositoryImpl.findProductById(1L)).thenReturn(null);
 		assertNull(productService.findById(1L, true));
@@ -101,7 +101,7 @@ class ProductServiceImplTest {
 	{
 		Product  product = productService.findById(2L, true);
 		product.setEnabled(false);
-		productService.deleteById(product);
+		productService.softDelete(product);
 		Product  recoveredProducty = productService.findById(2L, true);
 		assertNotNull(recoveredProducty);
 	}
@@ -123,7 +123,7 @@ class ProductServiceImplTest {
 	void testCase_6()
 	{
 		Product product = productService.findById(2L, true);
-		productService.forceDeleteById(product);
+		productService.delete(product);
 		
 		when(repositoryImpl.findProductById(2L)).thenReturn(null);
 		assertNull(productService.findById(2L, true));

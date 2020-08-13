@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import ar.com.gl.shop.product.exceptions.CannotDelete;
 import ar.com.gl.shop.product.exceptions.ItemNotFound;
 import ar.com.gl.shop.product.model.Category;
-import ar.com.gl.shop.product.model.Resources;
+import ar.com.gl.shop.product.model.Product;
 import ar.com.gl.shop.product.repository.Repository;
 import ar.com.gl.shop.product.repositoryimpl.RepositoryImpl;
 import ar.com.gl.shop.product.services.CategoryService;
@@ -30,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	public static CategoryServiceImpl getInstance() {
 		
-		if (INSTANCE == null) {
+		if (Objects.isNull(INSTANCE)) {
 			INSTANCE = new CategoryServiceImpl();
 		}
 		return INSTANCE;
@@ -42,33 +43,10 @@ public class CategoryServiceImpl implements CategoryService {
 		
 		theCategory = new Category(name,description);
 		
-		return repositoryImpl.saveCategory(theCategory);
+		return repositoryImpl.createCategory(theCategory);
 		
 		
 	}
-	
-	@Override
-	public List<Category> findAll() {	
-		
-		List<Category> theCategoriesEnabled = new ArrayList<>();
-
-		for (Resources category : repositoryImpl.findAllCategory()) {
-			
-			if (((Category) category).getEnabled()) {
-				theCategoriesEnabled.add((Category)category);
-			}
-		}	
-		
-		return theCategoriesEnabled;
-	}
-	
-	@Override
-	public List<Category> findAllDisabled(){		
-		
-		return repositoryImpl.findAllCategory();
-		
-	}
-
 	
 	@Override
 	public Category findById(Long id, Boolean searchEnable){	
@@ -86,6 +64,27 @@ public class CategoryServiceImpl implements CategoryService {
 		return category;		
 	}
 	
+	@Override
+	public List<Category> findAll() {	
+		
+		List<Category> theCategoriesEnabled = new ArrayList<>();
+
+		for (Category category : repositoryImpl.findAllCategory()) {
+			
+			if (category.getEnabled()) {
+				theCategoriesEnabled.add(category);
+			}
+		}	
+		
+		return theCategoriesEnabled;
+	}
+	
+	@Override
+	public List<Category> findAllDisabled(){		
+		
+		return repositoryImpl.findAllCategory();
+		
+	}
 	
 
 	@Override
@@ -96,16 +95,42 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category deleteById(Category theCategory){
+	public Category softDelete(Category theCategory){
 		
-		return repositoryImpl.deleteCategory(theCategory);
+		for (Product product : repositoryImpl.findAllProduct()) {
+			try {
+				if (product.getCategory().getId().equals(theCategory.getId())) {
+					
+					throw new CannotDelete("No se puede eliminar una Categoria asociada a un producto");
+					
+				}
+			} catch (CannotDelete e) {
+				System.out.println(e.getMessage());
+				return null;
+			}
+		}
+		
+		return repositoryImpl.softDeleteCategory(theCategory);
 		
 	}
 	
 	@Override
-	public Category  forceDeleteById(Category theCategory){
+	public Category delete(Category theCategory){
 		
-		return repositoryImpl.forceDeleteCategory(theCategory);
+		for (Product product : repositoryImpl.findAllProduct()) {
+			try {
+				if (product.getCategory().getId().equals(theCategory.getId())) {
+					
+					throw new CannotDelete("No se puede eliminar una Categoria asociada a un producto");
+					
+				}
+			} catch (CannotDelete e) {
+				System.out.println(e.getMessage());
+				return null;
+			}
+		}
+		
+		return repositoryImpl.deleteCategory(theCategory);
 			
 	}
 	

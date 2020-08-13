@@ -20,8 +20,8 @@ public interface CategoryService {
 	 */
 	public Category findById(Long id, Boolean bool);
 	public Category update(Category theCategory);
-	public Category deleteById(Category theCategory);
-	public Category forceDeleteById(Category theCategory);
+	public Category softDelete(Category theCategory);
+	public Category delete(Category theCategory);
 	public List<Category> findAllDisabled();
 
 

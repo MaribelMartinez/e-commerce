@@ -1,4 +1,4 @@
-package ar.com.gl.shop.product.repositoryimpl;
+package ar.com.gl.shop.product.servicesimpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Objects;
 
 import ar.com.gl.shop.product.model.Category;
+import ar.com.gl.shop.product.model.Product;
 import ar.com.gl.shop.product.model.Resources;
+import ar.com.gl.shop.product.services.DataSource;
 
 public class CategoryDatasource extends DataSource{
 	
@@ -21,34 +23,8 @@ public class CategoryDatasource extends DataSource{
 		return instance;
 	}	
 	
-	public Category getById(final long id){
-		
-		Resources theCategory = new Category();
-		
-		final String query = "SELECT * FROM category WHERE id=" + id + ";";
-		
-		
-		return (Category)connection(query, theCategory);
-	}	
 	
-	public List<Category> getAll(){
-		
-		List<Resources> resourcesList = new ArrayList<>();
-		
-		Resources theCategory = new Category();
-		
-		final String query = "SELECT * FROM category";
-		
-		List<Category> categorylist = new ArrayList<>();		
-						
-		for (Resources category : connection(query, theCategory, resourcesList)) {
-			categorylist.add((Category) category);
-		}
-		
-		return categorylist;
-	}
-	
-	public Category createCategory(Category category) {
+	public Category create(Category category) {
 		
 		String name = category.getName();
 		String description = category.getDescription();
@@ -56,10 +32,36 @@ public class CategoryDatasource extends DataSource{
 		final String query = "INSERT INTO category (name, description, enabled) values ('"+ name +"', '" + description +"', '1');";
 		
 		
-		return (Category)connectionCreate(query, category);
+		return (Category)connectionPost(query, category);
 	}
 	
-	public Category updateCategory(Category category) {
+	public Category findById(final long id){
+		
+		final String query = "SELECT * FROM category WHERE id=" + id + ";";
+		
+		
+		return (Category)connectionGet(query);
+	}	
+	
+	public List<Category> findAll(){
+		
+				
+		final String query = "SELECT * FROM category";
+		
+		List<Resources> resourcesList = connectionGetAll(query);
+		
+		List<Category> categorylist = new ArrayList<>();		
+						
+		for (Resources category : resourcesList) {
+			categorylist.add((Category) category);
+		}
+		
+		return categorylist;
+	}
+	
+
+	
+	public Category update(Category category) {
 		
 		Long id = category.getId();
 		String name = category.getName();
@@ -67,10 +69,10 @@ public class CategoryDatasource extends DataSource{
 		
 		final String query = "UPDATE category set name ='"+name+"', description='"+description+"' where id="+id+";";
 		
-		return (Category)connectionCreate(query, category);
+		return (Category)connectionPost(query, category);
 	}
 	
-	public Category deleteCategory(Category category) {
+	public Category softDelete(Category category) {
 		
 		Long id = category.getId();
 		
@@ -78,16 +80,16 @@ public class CategoryDatasource extends DataSource{
 		
 		final String query = "UPDATE category set enabled = "+enabled+" where id="+id+";";		
 		
-		return (Category)connectionCreate(query, category);
+		return (Category)connectionPost(query, category);
 	}
 	
-	public Category forceDeleteCategory(Category category) {
+	public Category delete(Category category) {
 		
 		Long id = category.getId();
 		
-		final String query = "DELETE FROM category where id="+id+";";
-		
-		connectionCreate(query, category);
+		final String query = "DELETE FROM category where id="+id+";";		
+
+		connectionPost(query, category);
 		
 		return category;
 	}
@@ -95,7 +97,7 @@ public class CategoryDatasource extends DataSource{
 
 
 	@Override
-	public Category setAttributesForSqlReturnedObject(ResultSet resultSet) throws SQLException {		
+	public Category setAttributesFromQueryResult(ResultSet resultSet) throws SQLException {		
 			
 		Category theCategory = new Category();
 		

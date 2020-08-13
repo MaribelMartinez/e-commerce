@@ -22,11 +22,11 @@ public interface ProductService {
 	 */
 	public Product findById(Long id, Boolean bool);
 	public Product update(Product product);
-	public Product deleteById(Product theProduct);
-	public void  forceDeleteById(Product theProduct);
-	public RepositoryImpl getRepositoryImpl();
-	public List<Product> getTheProducts();
-	public Product getTheProduct();
+	public Product softDelete(Product theProduct);
+	public void  delete(Product theProduct);
+	//public RepositoryImpl getRepositoryImpl();
+	//public List<Product> getTheProducts();
+	//public Product getTheProduct();
 	public List<Product> findAllDisabled();
 
 }

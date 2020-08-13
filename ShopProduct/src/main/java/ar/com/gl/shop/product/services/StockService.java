@@ -10,7 +10,7 @@ public interface StockService {
 
     public void delete(Stock stock);
 
-    public void  softDelete(Stock stock);
+    public Stock softDelete(Stock stock);
 
     public Stock update(Stock stock);
 }

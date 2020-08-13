@@ -3,9 +3,11 @@ package ar.com.gl.shop.product.repositoryimpl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ar.com.gl.shop.product.model.Stock;
 import ar.com.gl.shop.product.repository.StockRepository;
+import ar.com.gl.shop.product.servicesimpl.StockDatasource;
 
 public class StockRepositoryImpl implements Serializable,StockRepository {
 
@@ -19,7 +21,7 @@ public class StockRepositoryImpl implements Serializable,StockRepository {
 	}
 	
 	public static StockRepositoryImpl getInstance() {
-		if(INSTANCE == null) {
+		if(Objects.isNull(INSTANCE)) {
 			INSTANCE = new StockRepositoryImpl();
 		}
 		return INSTANCE;
@@ -28,32 +30,35 @@ public class StockRepositoryImpl implements Serializable,StockRepository {
 	@Override
 	public Stock save(Stock stock) {
 		
-		return stockDatasource.createStock(stock);
+		return stockDatasource.create(stock);
 	}
 	
 	@Override
-	public Stock update(Stock stock) {
+	public Stock findById(Long id) {
 		
-		return stockDatasource.updateStock(stock);
+		return stockDatasource.findById(id);
 	}
-
+	
+	//no deberia existir
 	@Override
 	public List<Stock> getAll() {
 		return list;
 	}
 	
 	@Override
-	public void delete(Stock stock) {
-		list.remove(stock);
+	public Stock update(Stock stock) {
+		
+		return stockDatasource.update(stock);
+	}
+
+
+	@Override
+	public Stock softDeleteStock(Stock stock) {		
+		return stockDatasource.softDelete(stock);
 	}
 	
 	@Override
-	public Stock getById(Long id) {
-		for (Stock stock : list) {
-			if (stock.getId().equals(id)) {
-				return stock;
-			}
-		}
-		return null;
+	public Stock delete(Stock stock) {
+		return stockDatasource.delete(stock);		
 	}
 }

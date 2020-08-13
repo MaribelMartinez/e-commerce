@@ -1,4 +1,4 @@
-package ar.com.gl.shop.product.repositoryimpl;
+package ar.com.gl.shop.product.servicesimpl;
 
 
 import java.sql.ResultSet;
@@ -11,6 +11,7 @@ import ar.com.gl.shop.product.model.Category;
 import ar.com.gl.shop.product.model.Product;
 import ar.com.gl.shop.product.model.Resources;
 import ar.com.gl.shop.product.model.Stock;
+import ar.com.gl.shop.product.services.DataSource;
 
 public class ProductDatasource extends DataSource{
 	
@@ -21,38 +22,11 @@ public class ProductDatasource extends DataSource{
 	public static ProductDatasource getInstance() {
 		if(Objects.isNull(instance)) {
 			instance = new ProductDatasource();
-		}
-		
+		}		
 		return instance;
 	}
 	
-	public Product getById(final long id){
-		
-		Resources theProduct = new Product();
-		
-		final String query = "SELECT * FROM product WHERE id=" + id + ";";		
-		
-		return (Product)connection(query, theProduct);
-	}
-	
-	public List<Product> getAll(){
-		
-		List<Resources> resourcesList = new ArrayList<>();
-		
-		Resources theProduct = new Product();
-		
-		final String query = "SELECT * FROM product";
-		
-		List<Product> categorylist = new ArrayList<>();		
-						
-		for (Resources product : connection(query, theProduct, resourcesList)) {
-			categorylist.add((Product) product);
-		}
-		
-		return categorylist;
-	}
-	
-	public Product createProduct(Product product) {
+	public Product create(Product product) {
 		
 		String name = product.getName();
 		String description = product.getDescription();
@@ -64,10 +38,34 @@ public class ProductDatasource extends DataSource{
 				+ "values ('"+ name +"', '" + description +"','"+price+"', "+stockId+", "+categoryId+", 1);";
 		
 		
-		return (Product)connectionCreate(query, product);
+		return (Product)connectionPost(query, product);
 	}
 	
-	public Product updateProduct(Product product) {
+	public Product findById(final long id){
+		
+		final String query = "SELECT * FROM product WHERE id=" + id + ";";		
+		
+		return (Product)connectionGet(query);
+	}
+	
+	public List<Product> findAll(){		
+		
+		final String query = "SELECT * FROM product";
+		
+		List<Resources> resourcesList = connectionGetAll(query);
+		
+		List<Product> categorylist = new ArrayList<>();		
+						
+		for (Resources product : resourcesList) {
+			categorylist.add((Product) product);
+		}
+		
+		return categorylist;
+	}
+	
+
+	
+	public Product update(Product product) {
 		
 		Long id = product.getId();
 		String name = product.getName();
@@ -79,10 +77,10 @@ public class ProductDatasource extends DataSource{
 		final String query = "UPDATE product set name ='"+name+"', description='"+description+"'"
 				+ ", price='"+price+"', category='"+categoryId+"' where id="+id+";";
 		
-		return (Product)connectionCreate(query, product);
+		return (Product)connectionPost(query, product);
 	}
 	
-	public Product deleteProduct(Product product) {
+	public Product softDelete(Product product) {
 		
 		Long id = product.getId();
 		
@@ -90,24 +88,22 @@ public class ProductDatasource extends DataSource{
 		
 		final String query = "UPDATE product set enabled = "+enabled+" where id="+id+";";		
 		
-		return (Product)connectionCreate(query, product);
+		return (Product)connectionPost(query, product);
 	}
 	
-	public Product forceDeleteProduct(Product product) {
+	public Product delete(Product product) {
 		
 		Long id = product.getId();		
 		
-		stockDataSource.forceDeleteStock(product.getStock());
-		
 		final String query = "DELETE FROM product where id="+id+";";
 		
-		connectionCreate(query, product);
+		connectionPost(query, product);
 		
 		return product;
 	}
 	
 	@Override
-	public Product setAttributesForSqlReturnedObject(ResultSet resultSet) throws SQLException {		
+	public Product setAttributesFromQueryResult(ResultSet resultSet) throws SQLException {		
 		
 		Product theProduct = new Product();
 		
@@ -115,9 +111,13 @@ public class ProductDatasource extends DataSource{
 		theProduct.setName(resultSet.getString("name"));
 		theProduct.setDescription(resultSet.getString("description"));
 		theProduct.setPrice(resultSet.getDouble("price"));
-		theProduct.setStock((Stock)stockDataSource.getById(resultSet.getLong("stock")));
-		theProduct.setEnabled(resultSet.getBoolean("enabled"));
-		theProduct.setCategory((Category)categoryDataSource.getById(resultSet.getLong("category")));
+		theProduct.setStock(stockDataSource.findById(resultSet.getLong("stock")));
+		
+		Boolean enabled = resultSet.getInt("enabled") == 1  ? true : false;
+		
+		theProduct.setEnabled(enabled);;
+		
+		theProduct.setCategory(categoryDataSource.findById(resultSet.getLong("category")));
 		
 		return theProduct;
 	}

@@ -1,9 +1,10 @@
-package ar.com.gl.shop.product.repositoryimpl;
+package ar.com.gl.shop.product.services;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.gl.shop.product.model.Resources;
@@ -11,11 +12,13 @@ import ar.com.gl.shop.product.utils.DButils;
 
 public abstract class DataSource {
 		
-	public abstract Resources setAttributesForSqlReturnedObject(ResultSet resultSet) throws SQLException;
+	public abstract Resources setAttributesFromQueryResult(ResultSet resultSet) throws SQLException;
 	
-	public abstract Resources getById(final long id);
+	public abstract Resources findById(final long id);
 	
-	public Resources connection(String query, Resources resources) {
+	public Resources connectionGet(String query) {
+		
+		Resources resources = null;
 		
 		try(
 			Connection connection = DButils.getDataSource().getConnection();
@@ -25,7 +28,7 @@ public abstract class DataSource {
 			if (!resultSet.next()) {
 				return null;
 			}else {
-				resources = setAttributesForSqlReturnedObject(resultSet);
+				resources = setAttributesFromQueryResult(resultSet);
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -35,7 +38,9 @@ public abstract class DataSource {
 		
 	}
 	
-	public List<Resources> connection(String query, Resources resources, List<Resources> resourcesList) {
+	public List<Resources> connectionGetAll(String query) {
+		
+		List<Resources> resourcesList = new ArrayList<>();
 		
 		try(
 			Connection connection = DButils.getDataSource().getConnection();
@@ -47,7 +52,7 @@ public abstract class DataSource {
 			}else {		
 				
 				do {					
-					resourcesList.add(setAttributesForSqlReturnedObject(resultSet));
+					resourcesList.add(setAttributesFromQueryResult(resultSet));
 					
 				}				
 				while (resultSet.next());
@@ -60,7 +65,7 @@ public abstract class DataSource {
 		
 	}
 	
-	public Resources connectionCreate(String query, Resources resources) {
+	public Resources connectionPost(String query, Resources resources) {
 		
 		int succesfullUpdate;
 		
@@ -74,9 +79,9 @@ public abstract class DataSource {
 				if (succesfullUpdate == 1) {
 					 ResultSet resultSet = statement.getGeneratedKeys();
 					if (resultSet.next()) {
-						return getById(resultSet.getLong(1));
+						return findById(resultSet.getLong(1));
 					}else {
-						return getById(resources.getId());
+						return findById(resources.getId());
 					}
 				}
 			}catch(SQLException e) {

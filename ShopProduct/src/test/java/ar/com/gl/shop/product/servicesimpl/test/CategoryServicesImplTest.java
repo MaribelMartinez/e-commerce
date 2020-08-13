@@ -71,7 +71,7 @@ class CategoryServicesImplTest {
 	void testCase_4()
 	{
 		Category categoryToDelete = categoryService.findById(3L, true);
-		categoryService.deleteById(categoryToDelete);
+		categoryService.softDelete(categoryToDelete);
 		assertNull(categoryService.findById(3L, true));
 	}
 
@@ -95,7 +95,7 @@ class CategoryServicesImplTest {
 	{
 		Category  category = categoryService.findById(3L, true);
 		category.setEnabled(false);
-		categoryService.deleteById(category);
+		categoryService.softDelete(category);
 		Category  recoveredCategory = categoryService.findById(3L, true);
 		assertNotNull(recoveredCategory);
 	}
@@ -105,7 +105,7 @@ class CategoryServicesImplTest {
 	void testCase_8()
 	{
 		Category category = categoryService.findById(4L, true);
-		categoryService.forceDeleteById(category);
+		categoryService.delete(category);
 		assertNull(categoryService.findById(4L, true));
 		assertNull(categoryService.findById(4L, false));
 	}

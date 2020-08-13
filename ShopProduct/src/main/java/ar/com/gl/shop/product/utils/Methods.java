@@ -1,5 +1,6 @@
 package ar.com.gl.shop.product.utils;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -250,7 +251,11 @@ public class Methods {
 				
 				case "1": //Eliminar/Recuperar		
 					
-					categoryService.deleteById(categoryOptional.get());
+					category = categoryService.softDelete(categoryOptional.get());
+					
+					if (Objects.isNull(category)) {
+						break;
+					}
 					
 					System.out.println("\nCategoria Eliminada/Recuperada");
 					
@@ -263,7 +268,11 @@ public class Methods {
 
 					if (input1.matches(Methods.getRegexAfirmativo())) {
 
-						category = categoryService.forceDeleteById(categoryOptional.get());
+						category = categoryService.delete(categoryOptional.get());
+						
+						if (Objects.isNull(category)) {
+							break;
+						}
 						
 						System.out.println("\nLa siguiente categoria \n\n"+category+"\nha sido eliminada Permanentemente");
 
@@ -533,7 +542,7 @@ public class Methods {
 							
 							case "1"://Eliminar/Recuperar				
 								
-								productService.deleteById(productOptional.get());
+								productService.softDelete(productOptional.get());
 								
 								System.out.println("\nCategoria Eliminada/Recuperada");
 								
@@ -546,7 +555,7 @@ public class Methods {
 			
 								if (input.matches(Methods.getRegexAfirmativo())) {
 			
-									productService.forceDeleteById(productOptional.get());
+									productService.delete(productOptional.get());
 			
 								}					
 								

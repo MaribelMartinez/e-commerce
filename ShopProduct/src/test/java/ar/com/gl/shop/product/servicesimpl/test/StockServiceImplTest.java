@@ -44,7 +44,7 @@ class StockServiceImplTest {
 	@DisplayName("create()")
 	void testCase_0()
 	{
-		Mockito.when(repositoryMock.getById(2L)).thenReturn(stock);
+		Mockito.when(repositoryMock.findById(2L)).thenReturn(stock);
 		Stock stockFind = stockService.findById(2L, true);
 		assertEquals(stock, stockFind); //
 	//	assertEquals(400, stockFind.getQuantity());
@@ -55,7 +55,7 @@ class StockServiceImplTest {
 	@DisplayName("setId()")
 	void testCase_1() {
 		stock.setId(5L);
-		Mockito.when(repositoryMock.getById(5L)).thenReturn(stock);
+		Mockito.when(repositoryMock.findById(5L)).thenReturn(stock);
 		assertEquals(5L,stockService.findById(5L, true).getId());
 	}
 	
@@ -63,7 +63,7 @@ class StockServiceImplTest {
 	@DisplayName("setQuantity()")
 	void testCase_2() {
 		stock.setQuantity(78);
-		Mockito.when(repositoryMock.getById(5L)).thenReturn(stock);
+		Mockito.when(repositoryMock.findById(5L)).thenReturn(stock);
 		assertEquals(78,stockService.findById(5L, true).getQuantity());
 	}
 	
@@ -71,7 +71,7 @@ class StockServiceImplTest {
 	@DisplayName("setLocationCode()")
 	void testCase_3() {
 		stock.setLocationCode("MDZ");
-		Mockito.when(repositoryMock.getById(5L)).thenReturn(stock);
+		Mockito.when(repositoryMock.findById(5L)).thenReturn(stock);
 		assertEquals("MDZ",stockService.findById(5L, true).getLocationCode());
 	}
 
@@ -79,7 +79,7 @@ class StockServiceImplTest {
 	@DisplayName("softDelete() - false")
 	void testCase_4() {
 		stock.setEnabled(true);
-		Mockito.when(repositoryMock.getById(5L)).thenReturn(stock);//
+		Mockito.when(repositoryMock.findById(5L)).thenReturn(stock);//
 		stockService.softDelete(stockService.findById(5L, true));
 		assertNull(stockService.findById(5L, true));
 		assertNotNull(stockService.findById(5L, false)); 
@@ -93,7 +93,7 @@ class StockServiceImplTest {
 	@Test
 	@DisplayName("findById() - null")
 	void testCase_5() {
-		Mockito.when(repositoryMock.getById(6L)).thenReturn(null);//
+		Mockito.when(repositoryMock.findById(6L)).thenReturn(null);//
 		assertNull(stockService.findById(6L, true));
 		assertNull(stockService.findById(6L, false));
 	}
@@ -102,7 +102,7 @@ class StockServiceImplTest {
 	@Test
 	@DisplayName("softDelete() - true")
 	void testCase_6() {
-		Mockito.when(repositoryMock.getById(5L)).thenReturn(stock);//
+		Mockito.when(repositoryMock.findById(5L)).thenReturn(stock);//
 		stockService.softDelete(stockService.findById(5L, false));
 		assertNotNull(stockService.findById(5L, true));
 		assertTrue(stockService.findById(5L, false).getEnabled());
@@ -114,7 +114,7 @@ class StockServiceImplTest {
 	void testCase_7() {
 		stock.setLocationCode("SJ");
 		stock.setQuantity(10);
-		Mockito.when(repositoryMock.getById(5L)).thenReturn(stock);//
+		Mockito.when(repositoryMock.findById(5L)).thenReturn(stock);//
 		assertEquals("Stock [id=5, quantity=10, locationCode=SJ]",stockService.findById(5L, true).toString());
 	}
 	
@@ -122,7 +122,7 @@ class StockServiceImplTest {
 	@DisplayName("update()")
 	void testCase_8() {
 		stock.setLocationCode("mza");
-		Mockito.when(repositoryMock.getById(5L)).thenReturn(stock);//
+		Mockito.when(repositoryMock.findById(5L)).thenReturn(stock);//
 		Stock stockNew = stockService.update(stock);
 		assertEquals(stock, stockNew);
 		
@@ -132,7 +132,7 @@ class StockServiceImplTest {
 	@DisplayName("delete()")
 	void testCase_9() {
 		stockService.delete(stockService.findById(5L, true));
-		Mockito.when(repositoryMock.getById(5L)).thenReturn(null);//
+		Mockito.when(repositoryMock.findById(5L)).thenReturn(null);//
 		assertNull(stockService.findById(5L, true));
 		assertNull(stockService.findById(5L, false));
 	}
