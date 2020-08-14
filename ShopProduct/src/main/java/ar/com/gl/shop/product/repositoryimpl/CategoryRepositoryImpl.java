@@ -11,7 +11,7 @@ import java.util.Objects;
 
 import ar.com.gl.shop.product.model.Category;
 import ar.com.gl.shop.product.repository.CategoryRepository;
-import ar.com.gl.shop.product.services.datasource.CategoryDatasource;
+import ar.com.gl.shop.product.repository.datasource.CategoryDatasource;
 
 
 public class CategoryRepositoryImpl implements Serializable,CategoryRepository{

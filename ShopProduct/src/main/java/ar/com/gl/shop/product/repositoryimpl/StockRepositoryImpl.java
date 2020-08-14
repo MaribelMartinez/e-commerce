@@ -11,8 +11,8 @@ import java.util.Objects;
 
 import ar.com.gl.shop.product.model.Stock;
 import ar.com.gl.shop.product.repository.StockRepository;
-import ar.com.gl.shop.product.services.datasource.CategoryDatasource;
-import ar.com.gl.shop.product.services.datasource.StockDatasource;
+import ar.com.gl.shop.product.repository.datasource.CategoryDatasource;
+import ar.com.gl.shop.product.repository.datasource.StockDatasource;
 
 public class StockRepositoryImpl implements Serializable,StockRepository {
 
