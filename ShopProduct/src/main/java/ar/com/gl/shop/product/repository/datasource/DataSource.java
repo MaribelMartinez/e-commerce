@@ -48,7 +48,7 @@ public abstract class DataSource {
 			ResultSet resultSet = statement.executeQuery(query);
 																){			
 			if (!resultSet.next()) {
-				return null;
+				return resourcesList;
 			}else {		
 				
 				do {					

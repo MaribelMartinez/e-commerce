@@ -63,9 +63,18 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public List<Product> findAll() {	
+	public List<Product> findAll() {
 		
 		List<Product> productList = repositoryImpl.findAllProduct();	
+		
+		try {
+			if (productList.isEmpty()) {
+				throw new ItemNotFound("No hay productos");
+			}
+		} catch (ItemNotFound e) {
+			
+			System.out.println(e.getMessage());
+		}
 		
 		List<Product> theProducts = new ArrayList<>();
 		
