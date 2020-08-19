@@ -11,8 +11,6 @@ import ar.com.gl.shop.product.utils.Methods;
 public class App {
     public static void main( String[] args ){
     	
-    	
-    	
     	String input;
     	
     	CategoryService categoryService = new CategoryServiceImpl();
