@@ -41,9 +41,9 @@ class CategoryServicesImplTest {
 	@BeforeEach
 	void setUp() throws ItemNotFound {
 		
-		categoryService.create("category1","descripcion");
-		categoryService.create("category2" , "descripcion2");
-		categoryService.create("category3", "descripcion3");
+		categoryService.create(category1);
+		categoryService.create(category2);
+		categoryService.create(category3);
 		category1= new Category("category1","descripcion");
 		category2= new Category("category2" , "descripcion2");
 		category3= new Category("category3", "descripcion3");

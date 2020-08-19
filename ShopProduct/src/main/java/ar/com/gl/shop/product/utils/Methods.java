@@ -1,19 +1,8 @@
 package ar.com.gl.shop.product.utils;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Scanner;
-
-import ar.com.gl.shop.product.model.Category;
-import ar.com.gl.shop.product.model.Product;
-import ar.com.gl.shop.product.model.Stock;
-import ar.com.gl.shop.product.service.CategoryService;
-import ar.com.gl.shop.product.service.ProductService;
-import ar.com.gl.shop.product.service.StockService;
-
 public class Methods {
 	
-	private static Scanner scanner = new Scanner(System.in);
+	/*private static Scanner scanner = new Scanner(System.in);
 	
 	private static String regexConfirmacion = "Sí|sí|Si|si|s|S|Yes|yes|y|1|No|no|n|N|0";
 	private static String regexAfirmativo = "Sí|sí|Si|si|s|Yes|yes|y|Y|1";
@@ -31,7 +20,7 @@ public class Methods {
 
 	public static String getRegexAfirmativo() {
 		return regexAfirmativo;
-	}
+	}*/
 
 
 	/**
@@ -45,7 +34,7 @@ public class Methods {
 	 * @param regex
 	 * @return String
 	 */
-	public static String validarInput(String mensaje, String regex) {
+	/*public static String validarInput(String mensaje, String regex) {
 		String input;
 		
 		do {
@@ -394,7 +383,7 @@ public class Methods {
 				/*productService.findAll().stream()
 				.forEach(System.out::println);*/
 				
-				break;
+				/*break;
 				
 			case "4": //Actualizar producto
 								
@@ -575,5 +564,5 @@ public class Methods {
 			}
 			
 		} while (!input.equals("6"));
-	}
+	}*/
 }

@@ -24,7 +24,7 @@ public class Category {
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
-	}
+	}	
 
 	public String getDescription() {
 		return description;

@@ -24,10 +24,7 @@ import ar.com.gl.shop.product.model.Category;
 import ar.com.gl.shop.product.model.Product;
 import ar.com.gl.shop.product.model.Stock;
 import ar.com.gl.shop.product.repository.impl.ProductRepositoryImpl;
-import ar.com.gl.shop.product.repository.impl.StockRepositoryImpl;
-import ar.com.gl.shop.product.service.impl.CategoryServiceImpl;
 import ar.com.gl.shop.product.service.impl.ProductServiceImpl;
-import ar.com.gl.shop.product.service.impl.StockServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {

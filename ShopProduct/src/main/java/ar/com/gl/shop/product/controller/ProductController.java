@@ -1,6 +1,5 @@
 package ar.com.gl.shop.product.controller;
 
-import java.util.Collection;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -18,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.com.gl.shop.product.model.Category;
 import ar.com.gl.shop.product.model.Product;
-import ar.com.gl.shop.product.model.Stock;
 import ar.com.gl.shop.product.service.impl.CategoryServiceImpl;
 import ar.com.gl.shop.product.service.impl.ProductServiceImpl;
 
