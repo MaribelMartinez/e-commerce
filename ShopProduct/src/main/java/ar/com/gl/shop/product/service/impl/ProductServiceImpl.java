@@ -1,16 +1,19 @@
 package ar.com.gl.shop.product.service.impl;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
+import org.springframework.stereotype.Service;
 
 import ar.com.gl.shop.product.exceptions.ItemNotFound;
 import ar.com.gl.shop.product.model.Product;
 import ar.com.gl.shop.product.repository.impl.ProductRepositoryImpl;
 import ar.com.gl.shop.product.service.ProductService;
 
+@Service
 public class ProductServiceImpl implements ProductService {
 
 	private ProductRepositoryImpl repositoryImpl;
@@ -59,7 +62,6 @@ public class ProductServiceImpl implements ProductService {
 			productsRepo = repositoryImpl.findAll();
 		} catch (ItemNotFound e) {
 			e.printStackTrace();
-			return null;
 		}
 
 		for (int i = 0; i < productsRepo.size(); i++) { 
@@ -110,6 +112,19 @@ public class ProductServiceImpl implements ProductService {
 		}
 
 		return product;
+	}
+	
+	public Product getByName(String name) {
+		try {
+			return (Product) repositoryImpl.findAll()
+					.stream()
+					.filter(p->p.getName().equals(name));
+			
+		} catch (ItemNotFound e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 	@Override

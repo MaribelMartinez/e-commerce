@@ -1,9 +1,12 @@
 package ar.com.gl.shop.product.service.impl;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
 import java.util.ArrayList;
 import java.util.List;
-import static java.util.Objects.nonNull;
-import static java.util.Objects.isNull;
+
+import org.springframework.stereotype.Service;
 
 import ar.com.gl.shop.product.exceptions.CannotDelete;
 import ar.com.gl.shop.product.exceptions.ItemNotFound;
@@ -13,6 +16,7 @@ import ar.com.gl.shop.product.repository.impl.CategoryRepositoryImpl;
 import ar.com.gl.shop.product.repository.impl.ProductRepositoryImpl;
 import ar.com.gl.shop.product.service.CategoryService;
 
+@Service
 public class CategoryServiceImpl implements CategoryService {
 
 	CategoryRepositoryImpl repositoryImpl;
@@ -25,9 +29,9 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category create(String name, String description) {
+	public Category create(Category category) {
 
-		Category category = new Category(name, description);
+		
 		try {
 			return repositoryImpl.create(category);
 		} catch (ItemNotFound e) {
@@ -151,6 +155,19 @@ public class CategoryServiceImpl implements CategoryService {
 			return null;
 		}
 
+	}
+
+	public Category getByName(String name) {
+		try {
+			return (Category) repositoryImpl.findAll()
+					.stream()
+					.filter(c->c.getName().equals(name));
+			
+		} catch (ItemNotFound e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 }

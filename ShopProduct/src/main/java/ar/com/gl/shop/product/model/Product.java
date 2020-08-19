@@ -1,5 +1,6 @@
 package ar.com.gl.shop.product.model;
 
+
 public class Product {
 	
 	private Long id;

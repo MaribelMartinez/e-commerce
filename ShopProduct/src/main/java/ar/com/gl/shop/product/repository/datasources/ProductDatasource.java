@@ -1,6 +1,6 @@
 package ar.com.gl.shop.product.repository.datasources;
 
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 public class ProductDatasource extends DBUtil{
 
