@@ -84,6 +84,10 @@ public class ProductController {
 			productDTO = productDTOConverter
 					.toDTO(productServiceImpl.create(productDTOConverter.toEntity(productDTO)));
 		} else {
+			if (nonNull(productDTO.getCategoryId())) {
+				product.setCategory(categoryService.getById(productDTO.getCategoryId(), true));
+				productDTO.setCategoryId(null);
+			}
 			product.setCategory(categoryService.getById(productDTO.getCategoryId(), true));
 			productDTO.setCategoryId(null);
 			productDTO.setId(id);
